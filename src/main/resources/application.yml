@@ -1,0 +1,23 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  rabbitmq:
+    connection-timeout:
+    channel-rpc-timeout:
+
+
+server:
+  port: 8088
+  #  port: 443
+  servlet:
+    context-path: /
+
+
+# the target path , rap to json
+json:
+  rootPath: /rapJson
+
+
+url:
+  # rap url
+  rap: http://172.31.3.113:8080
