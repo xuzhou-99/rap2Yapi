@@ -197,7 +197,7 @@ public class Rap2YapiService {
             JSONArray interCatList = new JSONArray();
 
             List<PageList> pageList = module.getPageList();
-            JSONArray list = new JSONArray();
+
 
             for (PageList pageItem : pageList) {
 
@@ -217,6 +217,7 @@ public class Rap2YapiService {
 
                 List<ActionList> actionList = pageItem.getActionList();
 
+                JSONArray list = new JSONArray();
                 for (ActionList action : actionList) {
 
                     log.info("处理分组 【{}】 ： 接口 {}", pageItemName, action.getName());
@@ -581,6 +582,7 @@ public class Rap2YapiService {
      * @return 格式化的url
      */
     private String getUrl(String url) {
+        url = url.replace(" ", "");
         if (url.startsWith("/")) {
             return url;
         } else {

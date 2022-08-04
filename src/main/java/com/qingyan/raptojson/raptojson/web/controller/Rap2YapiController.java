@@ -1,8 +1,6 @@
 package com.qingyan.raptojson.raptojson.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.qingyan.raptojson.httpclient.HttpClientUtils;
-import com.qingyan.raptojson.httpclient.HttpResult;
 import com.qingyan.raptojson.raptojson.pojo.JsonRootBean;
 import com.qingyan.raptojson.raptojson.web.Rap2YapiService;
 import com.qingyan.raptojson.response.ApiDataResponse;
@@ -98,7 +93,7 @@ public class Rap2YapiController {
      * @param type         处理类型
      * @return 操作结果
      */
-    @RequestMapping("/rapJson/toOne/{rapProjectId}/{type}")
+    @RequestMapping("/json/toOne/{rapProjectId}/{type}")
     @ResponseBody
     public ApiResponse rapJsonToOne(@PathVariable String rapProjectId, @PathVariable(required = false) String type) {
 
