@@ -21,3 +21,9 @@ json:
 url:
   # rap url
   rap: http://172.31.3.113:8080
+
+http:
+  client:
+    connect-timeout: 50000
+    socket-timeout: 50000
+    connection-request-timeout: 50000

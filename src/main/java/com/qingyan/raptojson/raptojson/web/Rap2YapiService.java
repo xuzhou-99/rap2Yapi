@@ -32,18 +32,28 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class Rap2YapiService {
 
-    private String url = "http://1.116.215.27:3000";
+    private static final String rap_api_queryRAPModel = "/api/queryRAPModel.do";
 
 
     //    @Value("${json.rootPath}")
     private String jsonRootPath = "/apiJson1";
 
 
-    public String getRapInterfaceByProjectId(String rapUrl, String rap_project_id) {
+    /**
+     * 根据Rap 项目Id和url获取项目接口集合
+     *
+     * @param rapUrl       RapUrl
+     * @param rapProjectId Rap项目Id
+     * @return 接口集合 json string
+     */
+    public String getRapInterfaceByProjectId(String rapUrl, String rapProjectId) {
         Map<String, Object> params = new HashMap<>(2);
-        params.put("projectId", rap_project_id);
-        HttpResult httpResult = HttpClientUtils.doGet(rapUrl + "/api/queryRAPModel.do", params);
+        params.put("projectId", rapProjectId);
+        HttpResult httpResult = HttpClientUtils.doGet(rapUrl + rap_api_queryRAPModel, params);
 
+        if (httpResult == null) {
+            return null;
+        }
         String stringEntity = httpResult.getStringEntity();
 
         JSONObject jsonObject = JSON.parseObject(stringEntity);
@@ -62,7 +72,7 @@ public class Rap2YapiService {
      * @param oneJson      是否是一个json
      */
     public List<String> rap2Json(JsonRootBean jsonRootBean, String rapProjectId, String projectId, String type, Boolean oneJson) {
-        List<String> fileList = new ArrayList<>();
+        List<String> fileList;
         switch (type) {
             case "page":
                 fileList = rap2JsonGroupByPage(jsonRootBean, rapProjectId, projectId);
@@ -584,6 +594,8 @@ public class Rap2YapiService {
     private String getUrl(String url) {
         url = url.replace(" ", "")
                 .replace("$", "");
+
+        //TODO:  '/app/customer_contract/v2/online/getOnlineEditPage.do?contractId='+id ，将？后面参数处理放入到req_params
 
         if (url.startsWith("/")) {
             return url;

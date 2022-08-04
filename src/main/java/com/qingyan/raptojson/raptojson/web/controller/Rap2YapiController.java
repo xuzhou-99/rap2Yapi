@@ -65,7 +65,7 @@ public class Rap2YapiController {
      * @param type         处理类型
      * @return 操作结果
      */
-    @RequestMapping("/json/{rapProjectId}/{type}")
+    @RequestMapping("/json/{type}/{rapProjectId}")
     @ResponseBody
     public ApiResponse rapJson(@PathVariable String rapProjectId, @PathVariable(required = false) String type) {
 
@@ -93,7 +93,7 @@ public class Rap2YapiController {
      * @param type         处理类型
      * @return 操作结果
      */
-    @RequestMapping("/json/toOne/{rapProjectId}/{type}")
+    @RequestMapping("/json/toOne/{type}/{rapProjectId}")
     @ResponseBody
     public ApiResponse rapJsonToOne(@PathVariable String rapProjectId, @PathVariable(required = false) String type) {
 
