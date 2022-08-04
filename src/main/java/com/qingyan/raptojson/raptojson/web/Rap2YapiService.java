@@ -203,7 +203,7 @@ public class Rap2YapiService {
 
                 String pageItemName = pageItem.getName();
                 if (StringUtils.equalsAny(pageItemName, "", "某页面")) {
-                    pageItemName = "";
+                    pageItemName = moduleName;
                 }
                 log.info("处理Rap pageList 分组：【{}】", pageItemName);
                 log.info("新增接口分类 【{}】", pageItemName);
@@ -582,7 +582,9 @@ public class Rap2YapiService {
      * @return 格式化的url
      */
     private String getUrl(String url) {
-        url = url.replace(" ", "");
+        url = url.replace(" ", "")
+                .replace("$", "");
+
         if (url.startsWith("/")) {
             return url;
         } else {
