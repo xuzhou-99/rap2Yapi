@@ -21,6 +21,8 @@ json:
 url:
   # rap url
   rap: http://172.31.3.113:8080
+  # rap2 url
+  rap2: http://172.31.3.22:38080
 
 http:
   client:

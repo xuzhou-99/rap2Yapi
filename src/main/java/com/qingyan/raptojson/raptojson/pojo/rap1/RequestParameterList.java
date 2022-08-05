@@ -1,5 +1,5 @@
 
-package com.qingyan.raptojson.raptojson.pojo;
+package com.qingyan.raptojson.raptojson.pojo.rap1;
 
 import java.util.List;
 
@@ -20,15 +20,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class JsonRootBean {
+public class RequestParameterList {
 
-    private List<ModuleList> moduleList;
+    private String identifier;
+    private String dataType;
     private String name;
-    private String createDateStr;
+    private String validator;
+    private List<String> parameterList;
+    private String remark;
     private int id;
-    private RapUser user;
-    private String version;
-    private String introduction;
-
 
 }

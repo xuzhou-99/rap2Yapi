@@ -1,7 +1,5 @@
 
-package com.qingyan.raptojson.raptojson.pojo;
-
-import java.util.List;
+package com.qingyan.raptojson.raptojson.pojo.rap1;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,14 +18,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ResponseParameterList {
+public class RapUser {
 
-    private String identifier;
-    private String dataType;
     private String name;
-    private String validator;
-    private List<String> parameterList;
-    private String remark;
     private int id;
+
 
 }

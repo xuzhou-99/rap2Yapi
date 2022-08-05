@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.qingyan.raptojson.raptojson.pojo.JsonRootBean;
-import com.qingyan.raptojson.raptojson.web.Rap2YapiService;
+import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
+import com.qingyan.raptojson.raptojson.service.RapConvertYapiService;
+import com.qingyan.raptojson.raptojson.service.RapApiService;
 import com.qingyan.raptojson.response.ApiDataResponse;
 import com.qingyan.raptojson.response.ApiResponse;
 
@@ -25,13 +26,16 @@ import com.qingyan.raptojson.response.ApiResponse;
  */
 @Controller
 @RequestMapping("/api/v1/rap")
-public class Rap2YapiController {
+public class RapConvertYapiController {
 
     @Value("${url.rap}")
     private String rapUrl;
 
     @Resource
-    private Rap2YapiService rap2YapiService;
+    private RapConvertYapiService rapConvertYapiService;
+
+    @Resource
+    private RapApiService rapApiService;
 
     /**
      * RAP接口
@@ -47,15 +51,15 @@ public class Rap2YapiController {
             return ApiDataResponse.ofError("查询数据失败，YApi projectId不能为空");
         }
 
-        String modelJson = rap2YapiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
+        String modelJson = rapApiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
 
         if (modelJson == null) {
             return ApiDataResponse.ofError("查询数据失败，请确认rap地址正确，以及projectId存在");
         }
 
-        JsonRootBean jsonRootBean = JSON.parseObject(modelJson, JsonRootBean.class);
-        rap2YapiService.rap2JsonGroupByModule(jsonRootBean, rapProjectId, projectId, false);
-        return ApiDataResponse.ofSuccess(jsonRootBean);
+        RapJsonRootBean rapJsonRootBean = JSON.parseObject(modelJson, RapJsonRootBean.class);
+        rapConvertYapiService.rap2JsonGroupByModule(rapJsonRootBean, rapProjectId, projectId, false);
+        return ApiDataResponse.ofSuccess(rapJsonRootBean);
     }
 
     /**
@@ -73,16 +77,16 @@ public class Rap2YapiController {
             return ApiDataResponse.ofError("查询数据失败，rap projectId不能为空");
         }
 
-        String modelJson = rap2YapiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
+        String modelJson = rapApiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
         if (modelJson == null) {
             return ApiDataResponse.ofError("查询数据失败，请确认rap地址正确，以及projectId存在");
         }
 
-        JsonRootBean jsonRootBean = JSON.parseObject(modelJson, JsonRootBean.class);
+        RapJsonRootBean rapJsonRootBean = JSON.parseObject(modelJson, RapJsonRootBean.class);
         if (type == null) {
             type = "module";
         }
-        List<String> rap2JsonList = rap2YapiService.rap2Json(jsonRootBean, rapProjectId, "", type, false);
+        List<String> rap2JsonList = rapConvertYapiService.rap2Json(rapJsonRootBean, rapProjectId, "", type, false);
         return ApiDataResponse.ofSuccess("rap 项目 " + rapProjectId + " 转为json文件成功", rap2JsonList);
     }
 
@@ -101,16 +105,16 @@ public class Rap2YapiController {
             return ApiDataResponse.ofError("查询数据失败，rap projectId不能为空");
         }
 
-        String modelJson = rap2YapiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
+        String modelJson = rapApiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
         if (modelJson == null) {
             return ApiDataResponse.ofError("查询数据失败，请确认rap地址正确，以及projectId存在");
         }
 
-        JsonRootBean jsonRootBean = JSON.parseObject(modelJson, JsonRootBean.class);
+        RapJsonRootBean rapJsonRootBean = JSON.parseObject(modelJson, RapJsonRootBean.class);
         if (type == null) {
             type = "module";
         }
-        List<String> rap2JsonList = rap2YapiService.rap2Json(jsonRootBean, rapProjectId, "", type, true);
+        List<String> rap2JsonList = rapConvertYapiService.rap2Json(rapJsonRootBean, rapProjectId, "", type, true);
         return ApiDataResponse.ofSuccess("rap 项目 " + rapProjectId + " 转为json文件成功", rap2JsonList);
     }
 }

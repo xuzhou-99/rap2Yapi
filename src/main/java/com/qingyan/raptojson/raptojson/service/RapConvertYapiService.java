@@ -1,4 +1,4 @@
-package com.qingyan.raptojson.raptojson.web;
+package com.qingyan.raptojson.raptojson.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,14 +12,12 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.qingyan.raptojson.httpclient.HttpClientUtils;
-import com.qingyan.raptojson.httpclient.HttpResult;
-import com.qingyan.raptojson.raptojson.pojo.ActionList;
-import com.qingyan.raptojson.raptojson.pojo.JsonRootBean;
-import com.qingyan.raptojson.raptojson.pojo.ModuleList;
-import com.qingyan.raptojson.raptojson.pojo.PageList;
-import com.qingyan.raptojson.raptojson.pojo.RequestParameterList;
-import com.qingyan.raptojson.raptojson.pojo.ResponseParameterList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.ActionList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
+import com.qingyan.raptojson.raptojson.pojo.rap1.ModuleList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.PageList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.RequestParameterList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.ResponseParameterList;
 import com.qingyan.raptojson.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class Rap2YapiService {
-
-    private static final String rap_api_queryRAPModel = "/api/queryRAPModel.do";
+public class RapConvertYapiService {
 
 
     //    @Value("${json.rootPath}")
@@ -40,46 +36,24 @@ public class Rap2YapiService {
 
 
     /**
-     * 根据Rap 项目Id和url获取项目接口集合
-     *
-     * @param rapUrl       RapUrl
-     * @param rapProjectId Rap项目Id
-     * @return 接口集合 json string
-     */
-    public String getRapInterfaceByProjectId(String rapUrl, String rapProjectId) {
-        Map<String, Object> params = new HashMap<>(2);
-        params.put("projectId", rapProjectId);
-        HttpResult httpResult = HttpClientUtils.doGet(rapUrl + rap_api_queryRAPModel, params);
-
-        if (httpResult == null) {
-            return null;
-        }
-        String stringEntity = httpResult.getStringEntity();
-
-        JSONObject jsonObject = JSON.parseObject(stringEntity);
-        return jsonObject.getString("modelJSON");
-    }
-
-
-    /**
      * Rap 接口转Yapi json
      * 项目-模块-分类-接口 -> 项目-分类（模块作为分类）-接口
      *
-     * @param jsonRootBean rap接口对象
+     * @param rapJsonRootBean rap接口对象
      * @param rapProjectId rap项目Id
      * @param projectId    YApi项目Id
      * @param type         接口转换措施
      * @param oneJson      是否是一个json
      */
-    public List<String> rap2Json(JsonRootBean jsonRootBean, String rapProjectId, String projectId, String type, Boolean oneJson) {
+    public List<String> rap2Json(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId, String type, Boolean oneJson) {
         List<String> fileList;
         switch (type) {
             case "page":
-                fileList = rap2JsonGroupByPage(jsonRootBean, rapProjectId, projectId);
+                fileList = rap2JsonGroupByPage(rapJsonRootBean, rapProjectId, projectId);
                 break;
             case "module":
             default:
-                fileList = rap2JsonGroupByModule(jsonRootBean, rapProjectId, projectId, oneJson);
+                fileList = rap2JsonGroupByModule(rapJsonRootBean, rapProjectId, projectId, oneJson);
                 break;
         }
         return fileList;
@@ -92,21 +66,21 @@ public class Rap2YapiService {
      * rap接口对应 YApi 接口；
      * （项目-模块-分类-接口） 重组为 (项目-分类（模块作为分类）-接口)
      *
-     * @param jsonRootBean rap接口对象
+     * @param rapJsonRootBean rap接口对象
      * @param rapProjectId rap项目Id
      * @param projectId    YApi项目Id
      * @param oneJson      是否是一个json
      */
-    public List<String> rap2JsonGroupByModule(JsonRootBean jsonRootBean, String rapProjectId, String projectId, Boolean oneJson) {
+    public List<String> rap2JsonGroupByModule(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId, Boolean oneJson) {
 
         List<String> fileList = new ArrayList<>();
 
-        String rapDataName = jsonRootBean.getName();
+        String rapDataName = rapJsonRootBean.getName();
 
         log.info("处理Rap 项目 ：【{}】", rapDataName);
 
         JSONArray allJson = new JSONArray();
-        List<ModuleList> moduleList = jsonRootBean.getModuleList();
+        List<ModuleList> moduleList = rapJsonRootBean.getModuleList();
 
         for (ModuleList module : moduleList) {
 
@@ -157,7 +131,8 @@ public class Rap2YapiService {
                 JSONArray json = new JSONArray();
                 json.add(catMap);
 
-                String jsonFile = writeToJsonFile(json, rapDataName + "_" + catMap.getString("name"),
+                String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, json,
+                        rapDataName + "_" + catMap.getString("name"),
                         rapDataName, "projectToProject", "");
                 fileList.add(jsonFile);
                 log.info("rap 接口转为 json文件：{}", jsonFile);
@@ -167,7 +142,7 @@ public class Rap2YapiService {
         }
 
         if (Boolean.TRUE.equals(oneJson)) {
-            String jsonFile = writeToJsonFile(allJson, "all_" + rapDataName,
+            String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
                     rapDataName, "projectToProject", "");
             fileList.add(jsonFile);
             log.info("rap 接口转为 json文件：{}", jsonFile);
@@ -183,17 +158,17 @@ public class Rap2YapiService {
      * rap接口对应 YApi 接口；
      * （项目-模块-分类-接口） 重组为 (项目（模块作为项目）-分类-接口)
      *
-     * @param jsonRootBean rap接口对象
+     * @param rapJsonRootBean rap接口对象
      * @param rapProjectId rap项目Id
      * @param projectId    YApi项目Id
      */
-    public List<String> rap2JsonGroupByPage(JsonRootBean jsonRootBean, String rapProjectId, String projectId) {
+    public List<String> rap2JsonGroupByPage(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId) {
 
         List<String> fileList = new ArrayList<>();
-        String rapDataName = jsonRootBean.getName();
+        String rapDataName = rapJsonRootBean.getName();
 
         log.info("处理Rap 项目 ：【{}】", rapDataName);
-        List<ModuleList> moduleList = jsonRootBean.getModuleList();
+        List<ModuleList> moduleList = rapJsonRootBean.getModuleList();
         for (ModuleList module : moduleList) {
 
             String moduleName = module.getName();
@@ -246,7 +221,7 @@ public class Rap2YapiService {
                 interCatList.add(catMap);
             }
 
-            String jsonFile = writeToJsonFile(interCatList, moduleName, rapDataName, "moduleToProject", moduleName);
+            String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName, "moduleToProject", moduleName);
             fileList.add(jsonFile);
             log.info("rap 接口转为 json文件：{}", jsonFile);
         }
@@ -602,38 +577,6 @@ public class Rap2YapiService {
         } else {
             return "/" + url;
         }
-    }
-
-    /**
-     * 将json写入到文件中
-     *
-     * @param json         json
-     * @param jsonFileName 文件名称
-     * @param projectName  项目名称
-     * @param typeName     处理方式
-     * @param moduleName   模块名称
-     * @return 文件路径
-     */
-    private String writeToJsonFile(JSONArray json, String jsonFileName, String projectName,
-                                   String typeName, String moduleName) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(jsonRootPath);
-        if (projectName != null && !"".equals(projectName)) {
-            stringBuilder.append("/").append(projectName);
-        }
-        if (typeName != null && !"".equals(typeName)) {
-            stringBuilder.append("/").append(typeName);
-        }
-        if (moduleName != null && !"".equals(moduleName)) {
-            stringBuilder.append("/").append(moduleName);
-        }
-
-        stringBuilder.append("/").append(jsonFileName).append(".json");
-        String filePath = stringBuilder.toString();
-
-        FileUtil.writeToJsonFile(JSON.toJSONString(json), filePath);
-        return filePath;
     }
 
 

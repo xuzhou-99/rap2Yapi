@@ -7,7 +7,7 @@ package com.qingyan.raptojson.raptojson;
  * @author xuzhou
  * @since 2022/8/3
  */
-public enum RapEnums {
+public enum RapApiEnums {
 
     /**
      * 获取项目接口
@@ -29,7 +29,7 @@ public enum RapEnums {
      */
     private final String method;
 
-    RapEnums(String name, String api, String method) {
+    RapApiEnums(String name, String api, String method) {
         this.name = name;
         this.api = api;
         this.method = method;
