@@ -112,20 +112,24 @@ public class Rap2ConvertYapiService {
         for (Object m : modules) {
             JSONObject module = JSON.parseObject(JSON.toJSONString(m));
             JSONArray interfaces = module.getJSONArray("interfaces");
-            log.info("Rap2接口转 Swagger json：【接口】模块 {} ", module.getString("name"));
+            String moduleName = module.getString("name");
+            log.info("Rap2接口转 Swagger json：【接口】模块 {} ", moduleName);
 
             for (Object i : interfaces) {
                 JSONObject inter = JSON.parseObject(JSON.toJSONString(i));
                 String interMethod = inter.getString("method".toLowerCase());
                 log.info("Rap2接口转 Swagger json：【接口】模块 {} ，接口 {}，url {}",
-                        module.getString("name"),
+                        moduleName,
                         inter.getString("name"),
                         inter.getString("url"));
 
                 JSONObject path = new JSONObject();
                 JSONObject method = new JSONObject();
 
-                method.put("tags", module.getString("name"));
+                // TODO：无key数组序列化的时候有问题
+                List<String> tags = new ArrayList<>();
+                tags.add(moduleName);
+                method.put("tags", tags);
                 method.put("summary", inter.getString("name"));
                 if ("post".equals(interMethod)) {
                     method.put("consumes", Collections.singletonList("multipart/form-data"));
@@ -191,14 +195,15 @@ public class Rap2ConvertYapiService {
 
         for (Object m : modules) {
             JSONObject module = JSON.parseObject(JSON.toJSONString(m));
+            String moduleName = module.getString("name");
             JSONArray interfaces = module.getJSONArray("interfaces");
-            log.info("Rap2接口转 Swagger json：【定义参数】模块 {} ", module.getString("name"));
+            log.info("Rap2接口转 Swagger json：【定义参数】模块 {} ", moduleName);
 
             for (Object i : interfaces) {
                 JSONObject inter = JSON.parseObject(JSON.toJSONString(i));
                 JSONArray properties = inter.getJSONArray("properties");
                 log.info("Rap2接口转 Swagger json：【定义参数】模块 {} ，接口 {}，url {}",
-                        module.getString("name"),
+                        moduleName,
                         inter.getString("name"),
                         inter.getString("url"));
 
@@ -333,7 +338,7 @@ public class Rap2ConvertYapiService {
     /**
      * Rap action 转为 Yapi 接口 json
      *
-     * @param inter         Rap action接口
+     * @param inter          Rap action接口
      * @param catid          接口分类Id
      * @param projectId      项目Id
      * @param actionPageName 接口所属页面名称
@@ -377,7 +382,8 @@ public class Rap2ConvertYapiService {
         JSONObject req_body_other = null;
         String req_body_type;
 
-        List<RequestParameterList> requestParameterList = inter.getRequestParameterList();
+//        List<RequestParameterList> requestParameterList = inter.getRequestParameterList();
+        List<RequestParameterList> requestParameterList = new ArrayList<>();
         if ("GET".equals(method)) {
             for (RequestParameterList requestParameter : requestParameterList) {
 
@@ -396,7 +402,8 @@ public class Rap2ConvertYapiService {
             req_body_type = "json";
         }
 
-        List<ResponseParameterList> responseParameterList = inter.getResponseParameterList();
+//        List<ResponseParameterList> responseParameterList = inter.getResponseParameterList();
+        List<ResponseParameterList> responseParameterList = new ArrayList<>();
         Map<String, Object> res_body = formatDeepNoMock(JSON.parseArray(JSON.toJSONString(responseParameterList)));
 
 

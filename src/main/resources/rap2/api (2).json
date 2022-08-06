@@ -1,1 +1,832 @@
-{"swagger":"2.0","info":{"title":"迁移apaas固化组件","description":""},"tags":[{"name":"示例模块","description":"示例模块"},{"name":"员工管理","description":""},{"name":"商品管理","description":""}],"paths":{"/example/1645582495947":{"get":{"tags":["示例模块"],"summary":"示例接口","description":"示例接口描述","parameters":[{"name":"foo","in":"query","example":"default","description":"请求属性示例","type":"string","required":null}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response371"}}}}},"/example/1645582513467":{"get":{"tags":["员工管理"],"summary":"示例接口","description":"示例接口描述","parameters":[{"name":"foo","in":"query","example":"default","description":"请求属性示例","type":"string","required":null}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response372"}}}}},"/sysapp/apaas/employee/getProductOrder.do":{"post":{"tags":["员工管理"],"summary":"版本选择固化组件接口","consumes":["multipart/form-data"],"description":"","parameters":[{"name":"userId","in":"formData","example":"default","description":"员工id，新增页面不需要传，详情、编辑页面需要此参数","type":"string","required":null}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response374"}}}}},"/sysapp/apaas/employee/getRolePermission.do":{"post":{"tags":["员工管理"],"summary":"角色权限选择固化组件接口","consumes":["multipart/form-data"],"description":"","parameters":[{"name":"userId","in":"formData","example":"default","description":"员工id，新增页面不需要传，详情、编辑页面需要此参数","type":"string","required":null}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response376"}}}}},"/sysapp/apaas/employee/hasAssignCustomers.do":{"post":{"tags":["员工管理"],"summary":"查询员工是否分配客户（删除前校验）","consumes":["multipart/form-data"],"description":"","parameters":[{"name":"empIds","in":"formData","example":"default","description":"员工id，英文逗号分割","type":"string","required":false}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response483"}}}}},"/sysapp/apaas/employee/batchDeleteEmps.do":{"post":{"tags":["员工管理"],"summary":"批量删除员工接口","consumes":["multipart/form-data"],"description":"","parameters":[{"name":"empIds","in":"formData","example":"default","description":"员工id，英文逗号分割","type":"string","required":true}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response484"}}}}},"/example/1645582567029":{"get":{"tags":["商品管理"],"summary":"示例接口","description":"示例接口描述","parameters":[{"name":"foo","in":"query","example":"default","description":"请求属性示例","type":"string","required":null}],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response373"}}}}},"":{"post":{"tags":["商品管理"],"summary":"固化组件：商城起订量","consumes":["multipart/form-data"],"description":"","parameters":[],"deprecated":false,"responses":{"200":{"description":"ok","schema":{"$ref":"#/definitions/Response477"}}}}}},"definitions":{"Response371":{"title":"Response371","type":"object","properties":{"string":{"type":"string","description":"字符串属性示例","default":"★"},"number":{"type":"number","description":"数字属性示例","default":"1"},"boolean":{"type":"boolean","description":"布尔属性示例","default":"true"},"regexp":{"type":"regexp","description":"正则属性示例","default":"/[a-z][A-Z][0-9]/"},"function":{"type":"function","description":"函数属性示例","default":"() => Math.random()"},"array":{"type":"array","items":{"$ref":"#/definitions/Response5248"}},"items":{"type":"array","items":{"$ref":"#/definitions/Response5251"}},"object":{"$ref":"#/definitions/Response5252"},"placeholder":{"type":"string","description":"占位符示例","default":"@title"}}},"Response5248":{"title":"Response5248","type":"object","properties":{"foo":{"type":"number","description":"数组元素示例","default":"1"},"bar":{"type":"string","description":"数组元素示例","default":"★"}}},"Response5252":{"title":"Response5252","type":"object","properties":{"foo":{"type":"number","description":"对象属性示例","default":"1"},"bar":{"type":"string","description":"对象属性示例","default":"★"}}},"Response372":{"title":"Response372","type":"object","properties":{"string":{"type":"string","description":"字符串属性示例","default":"★"},"number":{"type":"number","description":"数字属性示例","default":"1"},"boolean":{"type":"boolean","description":"布尔属性示例","default":"true"},"regexp":{"type":"regexp","description":"正则属性示例","default":"/[a-z][A-Z][0-9]/"},"function":{"type":"function","description":"函数属性示例","default":"() => Math.random()"},"array":{"type":"array","items":{"$ref":"#/definitions/Response5262"}},"items":{"type":"array","items":{"$ref":"#/definitions/Response5265"}},"object":{"$ref":"#/definitions/Response5266"},"placeholder":{"type":"string","description":"占位符示例","default":"@title"}}},"Response5262":{"title":"Response5262","type":"object","properties":{"foo":{"type":"number","description":"数组元素示例","default":"1"},"bar":{"type":"string","description":"数组元素示例","default":"★"}}},"Response5266":{"title":"Response5266","type":"object","properties":{"foo":{"type":"number","description":"对象属性示例","default":"1"},"bar":{"type":"string","description":"对象属性示例","default":"★"}}},"Response374":{"title":"Response374","type":"object","properties":{"code":{"type":"string","description":"","default":"1"},"data":{"$ref":"#/definitions/Response5310"},"message":{"type":"string","description":""},"success":{"type":"boolean","description":"","default":"true"}}},"Response5310":{"title":"Response5310","type":"object","properties":{"groupPdefs":{"type":"array","items":{"$ref":"#/definitions/Response5311"}},"selectedIds":{"type":"array","items":{"$ref":"#/definitions/Response5324"}}}},"Response5311":{"title":"Response5311","type":"object","properties":{"product_type":{"type":"array","items":{"$ref":"#/definitions/Response5312"}},"product_type_name":{"type":"array","items":{"$ref":"#/definitions/Response5313"}},"product_list":{"type":"array","items":{"$ref":"#/definitions/Response5314"}}}},"Response5314":{"title":"Response5314","type":"object","properties":{"end_date":{"type":"array","items":{"$ref":"#/definitions/Response5315"}},"order_status":{"type":"array","items":{"$ref":"#/definitions/Response5316"}},"prelist":{"type":"array","items":{"$ref":"#/definitions/Response5317"}},"name":{"type":"array","items":{"$ref":"#/definitions/Response5318"}},"keyid":{"type":"array","items":{"$ref":"#/definitions/Response5319"}},"used_num":{"type":"number","description":"已订购人数","default":"111"},"id":{"type":"number","description":"","default":"7.403171872320245e18"},"user_number":{"type":"number","description":"可订购人数","default":"1000"},"start_date":{"type":"array","items":{"$ref":"#/definitions/Response5323"}}}},"Response376":{"title":"Response376","type":"object","properties":{"code":{"type":"string","description":"","default":"1"},"data":{"$ref":"#/definitions/Response5329"},"message":{"type":"string","description":""},"success":{"type":"boolean","description":"","default":"true"}}},"Response5329":{"title":"Response5329","type":"object","properties":{"selectedRoleIds":{"type":"array","items":{"$ref":"#/definitions/Response5330"}},"allRoles":{"type":"array","items":{"$ref":"#/definitions/Response5331"}}}},"Response5331":{"title":"Response5331","type":"object","properties":{"appId":{"type":"number","description":"","default":"-1"},"canSelect":{"type":"boolean","description":"","default":"false"},"checked":{"type":"boolean","description":"","default":"false"},"code":{"type":"array","items":{"$ref":"#/definitions/Response5335"}},"copyUser":{"type":"string","description":""},"createTime":{"type":"array","items":{"$ref":"#/definitions/Response5337"}},"creatorId":{"type":"number","description":"","default":"0"},"id":{"type":"number","description":"","default":"5.390785823091843e18"},"isInner":{"type":"array","items":{"$ref":"#/definitions/Response5340"}},"isViewAll":{"type":"array","items":{"$ref":"#/definitions/Response5341"}},"keyid":{"type":"array","items":{"$ref":"#/definitions/Response5342"}},"name":{"type":"array","items":{"$ref":"#/definitions/Response5343"}},"originType":{"type":"string","description":"","default":"0"},"roleDesc":{"type":"array","items":{"$ref":"#/definitions/Response5345"}},"roleState":{"type":"string","description":""},"sequ":{"type":"number","description":"","default":"0"},"userCount":{"type":"number","description":"","default":"0"},"users":{"type":"array","items":{"$ref":"#/definitions/Response5349"}},"validatedEndDate":{"type":"array","items":{"$ref":"#/definitions/Response5350"}},"validatedStartDate":{"type":"array","items":{"$ref":"#/definitions/Response5351"}}}},"Response483":{"title":"Response483","type":"object","properties":{"code":{"type":"string","description":"","default":"1"},"data":{"type":"array","items":{"$ref":"#/definitions/Response7064"}},"message":{"type":"string","description":""},"success":{"type":"boolean","description":"","default":"true"}}},"Response484":{"title":"Response484","type":"object","properties":{"code":{"type":"string","description":"","default":"0"},"data":{"type":"string","description":""},"message":{"type":"string","description":"","default":"员工客户信息绑定:戴亮,陈华,方月,陈一彪,牛头酋长,悠米,蔡安华1,曾小辉"},"success":{"type":"boolean","description":"","default":"false"}}},"Response373":{"title":"Response373","type":"object","properties":{"string":{"type":"string","description":"字符串属性示例","default":"★"},"number":{"type":"number","description":"数字属性示例","default":"1"},"boolean":{"type":"boolean","description":"布尔属性示例","default":"true"},"regexp":{"type":"regexp","description":"正则属性示例","default":"/[a-z][A-Z][0-9]/"},"function":{"type":"function","description":"函数属性示例","default":"() => Math.random()"},"array":{"type":"array","items":{"$ref":"#/definitions/Response5276"}},"items":{"type":"array","items":{"$ref":"#/definitions/Response5279"}},"object":{"$ref":"#/definitions/Response5280"},"placeholder":{"type":"string","description":"占位符示例","default":"@title"}}},"Response5276":{"title":"Response5276","type":"object","properties":{"foo":{"type":"number","description":"数组元素示例","default":"1"},"bar":{"type":"string","description":"数组元素示例","default":"★"}}},"Response5280":{"title":"Response5280","type":"object","properties":{"foo":{"type":"number","description":"对象属性示例","default":"1"},"bar":{"type":"string","description":"对象属性示例","default":"★"}}}}}
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "迁移apaas固化组件",
+    "description": ""
+  },
+  "tags": [
+    {
+      "name": "示例模块",
+      "description": "示例模块"
+    },
+    {
+      "name": "员工管理",
+      "description": ""
+    },
+    {
+      "name": "商品管理",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/example/1645582495947": {
+      "get": {
+        "tags": [
+          "示例模块"
+        ],
+        "summary": "示例接口",
+        "description": "示例接口描述",
+        "parameters": [
+          {
+            "name": "foo",
+            "in": "query",
+            "example": "default",
+            "description": "请求属性示例",
+            "type": "string",
+            "required": null
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response371"
+            }
+          }
+        }
+      }
+    },
+    "/example/1645582513467": {
+      "get": {
+        "tags": [
+          "员工管理"
+        ],
+        "summary": "示例接口",
+        "description": "示例接口描述",
+        "parameters": [
+          {
+            "name": "foo",
+            "in": "query",
+            "example": "default",
+            "description": "请求属性示例",
+            "type": "string",
+            "required": null
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response372"
+            }
+          }
+        }
+      }
+    },
+    "/sysapp/apaas/employee/getProductOrder.do": {
+      "post": {
+        "tags": [
+          "员工管理"
+        ],
+        "summary": "版本选择固化组件接口",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "example": "default",
+            "description": "员工id，新增页面不需要传，详情、编辑页面需要此参数",
+            "type": "string",
+            "required": null
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response374"
+            }
+          }
+        }
+      }
+    },
+    "/sysapp/apaas/employee/getRolePermission.do": {
+      "post": {
+        "tags": [
+          "员工管理"
+        ],
+        "summary": "角色权限选择固化组件接口",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "formData",
+            "example": "default",
+            "description": "员工id，新增页面不需要传，详情、编辑页面需要此参数",
+            "type": "string",
+            "required": null
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response376"
+            }
+          }
+        }
+      }
+    },
+    "/sysapp/apaas/employee/hasAssignCustomers.do": {
+      "post": {
+        "tags": [
+          "员工管理"
+        ],
+        "summary": "查询员工是否分配客户（删除前校验）",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "empIds",
+            "in": "formData",
+            "example": "default",
+            "description": "员工id，英文逗号分割",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response483"
+            }
+          }
+        }
+      }
+    },
+    "/sysapp/apaas/employee/batchDeleteEmps.do": {
+      "post": {
+        "tags": [
+          "员工管理"
+        ],
+        "summary": "批量删除员工接口",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "empIds",
+            "in": "formData",
+            "example": "default",
+            "description": "员工id，英文逗号分割",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response484"
+            }
+          }
+        }
+      }
+    },
+    "/example/1645582567029": {
+      "get": {
+        "tags": [
+          "商品管理"
+        ],
+        "summary": "示例接口",
+        "description": "示例接口描述",
+        "parameters": [
+          {
+            "name": "foo",
+            "in": "query",
+            "example": "default",
+            "description": "请求属性示例",
+            "type": "string",
+            "required": null
+          }
+        ],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response373"
+            }
+          }
+        }
+      }
+    },
+    "": {
+      "post": {
+        "tags": [
+          "商品管理"
+        ],
+        "summary": "固化组件：商城起订量",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "parameters": [],
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/Response477"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Response371": {
+      "title": "Response371",
+      "type": "object",
+      "properties": {
+        "string": {
+          "type": "string",
+          "description": "字符串属性示例",
+          "default": "★"
+        },
+        "number": {
+          "type": "number",
+          "description": "数字属性示例",
+          "default": "1"
+        },
+        "boolean": {
+          "type": "boolean",
+          "description": "布尔属性示例",
+          "default": "true"
+        },
+        "regexp": {
+          "type": "regexp",
+          "description": "正则属性示例",
+          "default": "/[a-z][A-Z][0-9]/"
+        },
+        "function": {
+          "type": "function",
+          "description": "函数属性示例",
+          "default": "() => Math.random()"
+        },
+        "array": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5248"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5251"
+          }
+        },
+        "object": {
+          "$ref": "#/definitions/Response5252"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "占位符示例",
+          "default": "@title"
+        }
+      }
+    },
+    "Response5248": {
+      "title": "Response5248",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "数组元素示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "数组元素示例",
+          "default": "★"
+        }
+      }
+    },
+    "Response5252": {
+      "title": "Response5252",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "对象属性示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "对象属性示例",
+          "default": "★"
+        }
+      }
+    },
+    "Response372": {
+      "title": "Response372",
+      "type": "object",
+      "properties": {
+        "string": {
+          "type": "string",
+          "description": "字符串属性示例",
+          "default": "★"
+        },
+        "number": {
+          "type": "number",
+          "description": "数字属性示例",
+          "default": "1"
+        },
+        "boolean": {
+          "type": "boolean",
+          "description": "布尔属性示例",
+          "default": "true"
+        },
+        "regexp": {
+          "type": "regexp",
+          "description": "正则属性示例",
+          "default": "/[a-z][A-Z][0-9]/"
+        },
+        "function": {
+          "type": "function",
+          "description": "函数属性示例",
+          "default": "() => Math.random()"
+        },
+        "array": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5262"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5265"
+          }
+        },
+        "object": {
+          "$ref": "#/definitions/Response5266"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "占位符示例",
+          "default": "@title"
+        }
+      }
+    },
+    "Response5262": {
+      "title": "Response5262",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "数组元素示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "数组元素示例",
+          "default": "★"
+        }
+      }
+    },
+    "Response5266": {
+      "title": "Response5266",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "对象属性示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "对象属性示例",
+          "default": "★"
+        }
+      }
+    },
+    "Response374": {
+      "title": "Response374",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "",
+          "default": "1"
+        },
+        "data": {
+          "$ref": "#/definitions/Response5310"
+        },
+        "message": {
+          "type": "string",
+          "description": ""
+        },
+        "success": {
+          "type": "boolean",
+          "description": "",
+          "default": "true"
+        }
+      }
+    },
+    "Response5310": {
+      "title": "Response5310",
+      "type": "object",
+      "properties": {
+        "groupPdefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5311"
+          }
+        },
+        "selectedIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5324"
+          }
+        }
+      }
+    },
+    "Response5311": {
+      "title": "Response5311",
+      "type": "object",
+      "properties": {
+        "product_type": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5312"
+          }
+        },
+        "product_type_name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5313"
+          }
+        },
+        "product_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5314"
+          }
+        }
+      }
+    },
+    "Response5314": {
+      "title": "Response5314",
+      "type": "object",
+      "properties": {
+        "end_date": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5315"
+          }
+        },
+        "order_status": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5316"
+          }
+        },
+        "prelist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5317"
+          }
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5318"
+          }
+        },
+        "keyid": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5319"
+          }
+        },
+        "used_num": {
+          "type": "number",
+          "description": "已订购人数",
+          "default": "111"
+        },
+        "id": {
+          "type": "number",
+          "description": "",
+          "default": "7.403171872320245e18"
+        },
+        "user_number": {
+          "type": "number",
+          "description": "可订购人数",
+          "default": "1000"
+        },
+        "start_date": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5323"
+          }
+        }
+      }
+    },
+    "Response376": {
+      "title": "Response376",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "",
+          "default": "1"
+        },
+        "data": {
+          "$ref": "#/definitions/Response5329"
+        },
+        "message": {
+          "type": "string",
+          "description": ""
+        },
+        "success": {
+          "type": "boolean",
+          "description": "",
+          "default": "true"
+        }
+      }
+    },
+    "Response5329": {
+      "title": "Response5329",
+      "type": "object",
+      "properties": {
+        "selectedRoleIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5330"
+          }
+        },
+        "allRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5331"
+          }
+        }
+      }
+    },
+    "Response5331": {
+      "title": "Response5331",
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "number",
+          "description": "",
+          "default": "-1"
+        },
+        "canSelect": {
+          "type": "boolean",
+          "description": "",
+          "default": "false"
+        },
+        "checked": {
+          "type": "boolean",
+          "description": "",
+          "default": "false"
+        },
+        "code": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5335"
+          }
+        },
+        "copyUser": {
+          "type": "string",
+          "description": ""
+        },
+        "createTime": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5337"
+          }
+        },
+        "creatorId": {
+          "type": "number",
+          "description": "",
+          "default": "0"
+        },
+        "id": {
+          "type": "number",
+          "description": "",
+          "default": "5.390785823091843e18"
+        },
+        "isInner": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5340"
+          }
+        },
+        "isViewAll": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5341"
+          }
+        },
+        "keyid": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5342"
+          }
+        },
+        "name": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5343"
+          }
+        },
+        "originType": {
+          "type": "string",
+          "description": "",
+          "default": "0"
+        },
+        "roleDesc": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5345"
+          }
+        },
+        "roleState": {
+          "type": "string",
+          "description": ""
+        },
+        "sequ": {
+          "type": "number",
+          "description": "",
+          "default": "0"
+        },
+        "userCount": {
+          "type": "number",
+          "description": "",
+          "default": "0"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5349"
+          }
+        },
+        "validatedEndDate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5350"
+          }
+        },
+        "validatedStartDate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5351"
+          }
+        }
+      }
+    },
+    "Response483": {
+      "title": "Response483",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "",
+          "default": "1"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response7064"
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": ""
+        },
+        "success": {
+          "type": "boolean",
+          "description": "",
+          "default": "true"
+        }
+      }
+    },
+    "Response484": {
+      "title": "Response484",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "",
+          "default": "0"
+        },
+        "data": {
+          "type": "string",
+          "description": ""
+        },
+        "message": {
+          "type": "string",
+          "description": "",
+          "default": "员工客户信息绑定:戴亮,陈华,方月,陈一彪,牛头酋长,悠米,蔡安华1,曾小辉"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "",
+          "default": "false"
+        }
+      }
+    },
+    "Response373": {
+      "title": "Response373",
+      "type": "object",
+      "properties": {
+        "string": {
+          "type": "string",
+          "description": "字符串属性示例",
+          "default": "★"
+        },
+        "number": {
+          "type": "number",
+          "description": "数字属性示例",
+          "default": "1"
+        },
+        "boolean": {
+          "type": "boolean",
+          "description": "布尔属性示例",
+          "default": "true"
+        },
+        "regexp": {
+          "type": "regexp",
+          "description": "正则属性示例",
+          "default": "/[a-z][A-Z][0-9]/"
+        },
+        "function": {
+          "type": "function",
+          "description": "函数属性示例",
+          "default": "() => Math.random()"
+        },
+        "array": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5276"
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Response5279"
+          }
+        },
+        "object": {
+          "$ref": "#/definitions/Response5280"
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "占位符示例",
+          "default": "@title"
+        }
+      }
+    },
+    "Response5276": {
+      "title": "Response5276",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "数组元素示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "数组元素示例",
+          "default": "★"
+        }
+      }
+    },
+    "Response5280": {
+      "title": "Response5280",
+      "type": "object",
+      "properties": {
+        "foo": {
+          "type": "number",
+          "description": "对象属性示例",
+          "default": "1"
+        },
+        "bar": {
+          "type": "string",
+          "description": "对象属性示例",
+          "default": "★"
+        }
+      }
+    }
+  }
+}
