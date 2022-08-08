@@ -1,4 +1,4 @@
-package com.qingyan.raptojson.raptojson;
+package com.qingyan.raptojson.raptojson.enums;
 
 /**
  * YApi 接口
@@ -7,19 +7,12 @@ package com.qingyan.raptojson.raptojson;
  * @author xuzhou
  * @since 2022/8/3
  */
-public enum Rap2ApiEnums {
+public enum YApiEnums {
 
     /**
-     * 获取仓库
-     * 参数：?id=:repositoryId
+     * 新增接口分类
      */
-    api_repository("获取项目接口", "/repository/get", "GET"),
-
-    /**
-     * 获取接口
-     * 参数：?id=:interfaceId
-     */
-    api_interface("获取项目接口", "/interface/get", "GET"),
+    api_addCat("新增接口分类", "/api/interface/add_cat", "POST"),
 
     ;
 
@@ -36,7 +29,7 @@ public enum Rap2ApiEnums {
      */
     private final String method;
 
-    Rap2ApiEnums(String name, String api, String method) {
+    YApiEnums(String name, String api, String method) {
         this.name = name;
         this.api = api;
         this.method = method;

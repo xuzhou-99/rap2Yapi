@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
 /**
  * @author xuzhou
  * @since 2022/8/3
@@ -21,75 +17,15 @@ public class FileUtil {
 
     }
 
-    private static final String file_json_suffix = ".json";
 
     /**
-     * 将json写入到文件中
+     * 写入文件
      *
-     * @param fileRootPath 文件根路径
-     * @param json         json
-     * @param jsonFileName 文件名称
-     * @param projectName  项目名称
-     * @param typeName     处理方式
-     * @param moduleName   模块名称
+     * @param content  文件内容
+     * @param filePath 文件路径：/test/file.json
      * @return 文件路径
      */
-    public static String writeToJsonFile(String fileRootPath, JSONObject json, String jsonFileName, String projectName,
-                                         String typeName, String moduleName) {
-        return writeToJsonFile(fileRootPath, JSON.toJSONString(json), jsonFileName, projectName, typeName, moduleName);
-    }
-
-
-    /**
-     * 将json写入到文件中
-     *
-     * @param fileRootPath 文件根路径
-     * @param json         json
-     * @param jsonFileName 文件名称
-     * @param projectName  项目名称
-     * @param typeName     处理方式
-     * @param moduleName   模块名称
-     * @return 文件路径
-     */
-    public static String writeToJsonFile(String fileRootPath, JSONArray json, String jsonFileName, String projectName,
-                                         String typeName, String moduleName) {
-        return writeToJsonFile(fileRootPath, JSON.toJSONString(json), jsonFileName, projectName, typeName, moduleName);
-    }
-
-    /**
-     * 将json写入到文件中
-     *
-     * @param fileRootPath 文件根路径
-     * @param json         json
-     * @param jsonFileName 文件名称
-     * @param projectName  项目名称
-     * @param typeName     处理方式
-     * @param moduleName   模块名称
-     * @return 文件路径
-     */
-    public static String writeToJsonFile(String fileRootPath, String json, String jsonFileName, String projectName,
-                                         String typeName, String moduleName) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(fileRootPath);
-        if (projectName != null && !"".equals(projectName)) {
-            stringBuilder.append("/").append(projectName);
-        }
-        if (typeName != null && !"".equals(typeName)) {
-            stringBuilder.append("/").append(typeName);
-        }
-        if (moduleName != null && !"".equals(moduleName)) {
-            stringBuilder.append("/").append(moduleName);
-        }
-
-        stringBuilder.append("/").append(jsonFileName).append(file_json_suffix);
-        String filePath = stringBuilder.toString();
-
-        FileUtil.writeToJsonFile(json, filePath);
-        return filePath;
-    }
-
-    public static String writeToJsonFile(String content, String filePath) {
+    public static String writeToFile(String content, String filePath) throws Exception {
 
         File file = new File(filePath);
 
@@ -98,12 +34,11 @@ public class FileUtil {
 
             bufferedWriter.write(content);
             bufferedWriter.flush();
+            return filePath;
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Exception(e);
         }
-
-        return filePath;
     }
 
     /**

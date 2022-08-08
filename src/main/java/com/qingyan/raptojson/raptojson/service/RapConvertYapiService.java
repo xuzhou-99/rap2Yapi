@@ -6,19 +6,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.qingyan.raptojson.raptojson.RapUtil;
+import com.qingyan.raptojson.raptojson.enums.JsonConvertTypeEnum;
 import com.qingyan.raptojson.raptojson.pojo.rap1.ActionList;
-import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
 import com.qingyan.raptojson.raptojson.pojo.rap1.ModuleList;
 import com.qingyan.raptojson.raptojson.pojo.rap1.PageList;
+import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
 import com.qingyan.raptojson.raptojson.pojo.rap1.RequestParameterList;
 import com.qingyan.raptojson.raptojson.pojo.rap1.ResponseParameterList;
-import com.qingyan.raptojson.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,8 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 public class RapConvertYapiService {
 
 
-    //    @Value("${json.rootPath}")
-    private String jsonRootPath = "/apiJson1";
+    @Value("${json.rootPath}")
+    private String jsonRootPath;
+
+    @Resource
+    private RapSaveJsonService rapSaveJsonService;
 
 
     /**
@@ -40,12 +47,13 @@ public class RapConvertYapiService {
      * 项目-模块-分类-接口 -> 项目-分类（模块作为分类）-接口
      *
      * @param rapJsonRootBean rap接口对象
-     * @param rapProjectId rap项目Id
-     * @param projectId    YApi项目Id
-     * @param type         接口转换措施
-     * @param oneJson      是否是一个json
+     * @param rapProjectId    rap项目Id
+     * @param projectId       YApi项目Id
+     * @param type            接口转换措施
+     * @param oneJson         是否是一个json
      */
-    public List<String> rap2Json(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId, String type, Boolean oneJson) {
+    public List<String> rap2Json(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId,
+                                 String type, Boolean oneJson) {
         List<String> fileList;
         switch (type) {
             case "page":
@@ -67,11 +75,12 @@ public class RapConvertYapiService {
      * （项目-模块-分类-接口） 重组为 (项目-分类（模块作为分类）-接口)
      *
      * @param rapJsonRootBean rap接口对象
-     * @param rapProjectId rap项目Id
-     * @param projectId    YApi项目Id
-     * @param oneJson      是否是一个json
+     * @param rapProjectId    rap项目Id
+     * @param projectId       YApi项目Id
+     * @param oneJson         是否是一个json
      */
-    public List<String> rap2JsonGroupByModule(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId, Boolean oneJson) {
+    public List<String> rap2JsonGroupByModule(RapJsonRootBean rapJsonRootBean, String rapProjectId,
+                                              String projectId, Boolean oneJson) {
 
         List<String> fileList = new ArrayList<>();
 
@@ -131,9 +140,9 @@ public class RapConvertYapiService {
                 JSONArray json = new JSONArray();
                 json.add(catMap);
 
-                String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, json,
+                String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, json,
                         rapDataName + "_" + catMap.getString("name"),
-                        rapDataName, "projectToProject", "");
+                        rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
                 fileList.add(jsonFile);
                 log.info("rap 接口转为 json文件：{}", jsonFile);
             } else {
@@ -142,8 +151,8 @@ public class RapConvertYapiService {
         }
 
         if (Boolean.TRUE.equals(oneJson)) {
-            String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
-                    rapDataName, "projectToProject", "");
+            String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
+                    rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
             fileList.add(jsonFile);
             log.info("rap 接口转为 json文件：{}", jsonFile);
         }
@@ -159,8 +168,8 @@ public class RapConvertYapiService {
      * （项目-模块-分类-接口） 重组为 (项目（模块作为项目）-分类-接口)
      *
      * @param rapJsonRootBean rap接口对象
-     * @param rapProjectId rap项目Id
-     * @param projectId    YApi项目Id
+     * @param rapProjectId    rap项目Id
+     * @param projectId       YApi项目Id
      */
     public List<String> rap2JsonGroupByPage(RapJsonRootBean rapJsonRootBean, String rapProjectId, String projectId) {
 
@@ -182,7 +191,6 @@ public class RapConvertYapiService {
             JSONArray interCatList = new JSONArray();
 
             List<PageList> pageList = module.getPageList();
-
 
             for (PageList pageItem : pageList) {
 
@@ -221,7 +229,8 @@ public class RapConvertYapiService {
                 interCatList.add(catMap);
             }
 
-            String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName, "moduleToProject", moduleName);
+            String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName,
+                    JsonConvertTypeEnum.MODULE_TO_PROJECT.getTypeName(), moduleName);
             fileList.add(jsonFile);
             log.info("rap 接口转为 json文件：{}", jsonFile);
         }
@@ -237,13 +246,14 @@ public class RapConvertYapiService {
      * @param actionPageName 接口所属页面名称
      * @return Yapi 接口json
      */
-    private Map<String, Object> action2YApiInterface(String projectId, String catid, ActionList action, String actionPageName) {
+    private Map<String, Object> action2YApiInterface(String projectId, String catid, ActionList action,
+                                                     String actionPageName) {
 
         Map<String, Object> yApiInterface = new HashMap<>(16);
         String interfaceId = "";
 
-        String path = getUrl(action.getRequestUrl());
-        String method = convertMethod(action.getRequestType());
+        String path = RapUtil.getUrl(action.getRequestUrl());
+        String method = RapUtil.convertMethod(action.getRequestType());
         String title = action.getName();
         if (actionPageName != null && !"".equals(actionPageName)) {
             title = (actionPageName + "—" + title).trim();
@@ -279,13 +289,21 @@ public class RapConvertYapiService {
         String req_body_type;
 
         List<RequestParameterList> requestParameterList = action.getRequestParameterList();
+
         if ("GET".equals(method)) {
             for (RequestParameterList requestParameter : requestParameterList) {
 
+                String name = requestParameter.getName();
+                String identifier = requestParameter.getIdentifier();
+                String remark = requestParameter.getRemark()
+                        .replace("@mock=", "")
+                        .replace("$order", "");
+                String fullName = RapUtil.buildDesAndRemark(name, remark);
+
                 JSONObject req_queryItem = new JSONObject();
-                req_queryItem.put("desc", requestParameter.getName());
-                req_queryItem.put("example", JSON.toJSONString(requestParameter.getRemark()).replace("@mock=", ""));
-                req_queryItem.put("name", requestParameter.getIdentifier());
+                req_queryItem.put("desc", fullName);
+                // req_queryItem.put("example", remark);
+                req_queryItem.put("name", identifier);
                 req_queryItem.put("required", "1");
                 req_query.add(req_queryItem);
             }
@@ -345,18 +363,25 @@ public class RapConvertYapiService {
             required.add(identifier);
 
             String dataType = rp.getString("dataType");
+            String remark = rp.getString("remark")
+                    .replace("@mock=", "")
+                    .replace("$order", "");
+            String name = rp.getString("name");
+            String fullName = RapUtil.buildDesAndRemark(name, remark);
+
             if (dataType.matches("array<(.*)>")) {
 
                 if (dataType.contains("object")) {
 
                     JSONObject prop = new JSONObject();
+                    prop.put("description", fullName);
                     prop.put("items", formatDeepNoMock(rp.getJSONArray("parameterList")));
                     prop.put("type", "array");
 
                     properties.put(identifier, prop);
-
                 } else {
                     JSONObject prop = new JSONObject();
+                    prop.put("description", fullName);
                     prop.put("items", new JSONObject());
                     prop.put("type", "array");
                     properties.put(identifier, prop);
@@ -365,8 +390,7 @@ public class RapConvertYapiService {
             } else {
 
                 JSONObject prop = new JSONObject();
-
-                prop.put("description", rp.getString("name"));
+                prop.put("description", fullName);
                 prop.put("type", dataType);
 
                 if (rp.getJSONArray("parameterList").isEmpty()) {
@@ -534,49 +558,6 @@ public class RapConvertYapiService {
 
         res_body.put("properties", properties);
         return res_body;
-    }
-
-    /**
-     * Rap 接口请求方式转 YApi 接口请求方式
-     *
-     * @param type Rap 接口请求方式
-     * @return YApi 接口请求方式
-     */
-    private String convertMethod(String type) {
-        if (type == null) {
-            return "GET";
-        }
-        switch (type) {
-            case "1":
-                return "GET";
-            case "2":
-                return "POST";
-            case "3":
-                return "PUT";
-            case "4":
-                return "DELETE";
-            default:
-                return "GET";
-        }
-    }
-
-    /**
-     * url需要以 '\' 开头
-     *
-     * @param url url
-     * @return 格式化的url
-     */
-    private String getUrl(String url) {
-        url = url.replace(" ", "")
-                .replace("$", "");
-
-        //TODO:  '/app/customer_contract/v2/online/getOnlineEditPage.do?contractId='+id ，将？后面参数处理放入到req_params
-
-        if (url.startsWith("/")) {
-            return url;
-        } else {
-            return "/" + url;
-        }
     }
 
 

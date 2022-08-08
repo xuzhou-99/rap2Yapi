@@ -1,4 +1,4 @@
-package com.qingyan.raptojson.raptojson;
+package com.qingyan.raptojson.raptojson.enums;
 
 /**
  * YApi 接口

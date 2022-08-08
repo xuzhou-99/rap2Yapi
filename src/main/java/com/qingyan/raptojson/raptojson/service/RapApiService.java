@@ -9,8 +9,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.qingyan.raptojson.httpclient.HttpClientUtils;
 import com.qingyan.raptojson.httpclient.HttpResult;
-import com.qingyan.raptojson.raptojson.Rap2ApiEnums;
-import com.qingyan.raptojson.raptojson.RapApiEnums;
+import com.qingyan.raptojson.raptojson.enums.Rap2ApiEnums;
+import com.qingyan.raptojson.raptojson.enums.RapApiEnums;
 
 import lombok.extern.slf4j.Slf4j;
 

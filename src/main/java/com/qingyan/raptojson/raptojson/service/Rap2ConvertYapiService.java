@@ -7,24 +7,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.qingyan.raptojson.raptojson.RapParseException;
-import com.qingyan.raptojson.raptojson.pojo.rap1.ActionList;
-import com.qingyan.raptojson.raptojson.pojo.rap1.ModuleList;
-import com.qingyan.raptojson.raptojson.pojo.rap1.PageList;
-import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
+import com.qingyan.raptojson.raptojson.RapUtil;
+import com.qingyan.raptojson.raptojson.enums.JsonConvertTypeEnum;
 import com.qingyan.raptojson.raptojson.pojo.rap1.RequestParameterList;
 import com.qingyan.raptojson.raptojson.pojo.rap1.ResponseParameterList;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Data;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Interfaces;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Modules;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Rap2JsonRootBean;
-import com.qingyan.raptojson.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +36,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class Rap2ConvertYapiService {
 
-    //    @Value("${json.rootPath}")
-    private String jsonRootPath = "/apiJson1";
+    @Value("${json.rootPath}")
+    private String jsonRootPath;
+
+    @Resource
+    private RapSaveJsonService rapSaveJsonService;
 
 
     public List<String> rapSwaggerJson(JSONObject rap2Json) throws RapParseException {
@@ -72,8 +75,9 @@ public class Rap2ConvertYapiService {
         swagger.put("definitions", definitions);
 
 
-        String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, swagger, "swagger_" + data.getString("name"),
-                data.getString("name"), "projectToProject", "");
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger,
+                "swagger_" + data.getString("name"),
+                data.getString("name"), JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
 
         fileList.add(jsonFile);
         log.info("rap 接口转为 json文件：{}", jsonFile);
@@ -173,7 +177,8 @@ public class Rap2ConvertYapiService {
             JSONObject item = new JSONObject();
             item.put("name", prop.getString("name"));
             item.put("in", "get".equals(method) ? "query" : "formData");
-            item.put("example", "default");
+            // 初始化值 value可以作为 example
+            item.put("example", prop.getString("value"));
             item.put("description", prop.getString("description"));
             item.put("type", prop.getString("type").toLowerCase());
             item.put("required", prop.getBooleanValue("required"));
@@ -268,7 +273,8 @@ public class Rap2ConvertYapiService {
      * @param rapProjectId rap项目Id
      * @param projectId    YApi项目Id
      */
-    public List<String> rapYApiJson(JSONObject rap2Json, String rapProjectId, String projectId) throws RapParseException {
+    public List<String> rapYApiJson(JSONObject rap2Json, String rapProjectId, String projectId)
+            throws RapParseException {
 
         List<String> fileList = new ArrayList<>();
 
@@ -326,8 +332,8 @@ public class Rap2ConvertYapiService {
         }
 
 
-        String jsonFile = FileUtil.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
-                rapDataName, "projectToProject", "");
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson,
+                "all_" + rapDataName, rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
         fileList.add(jsonFile);
         log.info("rap 接口转为 json文件：{}", jsonFile);
 
@@ -349,7 +355,7 @@ public class Rap2ConvertYapiService {
         Map<String, Object> yApiInterface = new HashMap<>(16);
         String interfaceId = "";
 
-        String path = getUrl(inter.getUrl());
+        String path = RapUtil.getUrl(inter.getUrl());
         String method = inter.getMethod().toUpperCase();
         String title = inter.getName();
 
@@ -488,23 +494,5 @@ public class Rap2ConvertYapiService {
         return res_body;
     }
 
-    /**
-     * url需要以 '\' 开头
-     *
-     * @param url url
-     * @return 格式化的url
-     */
-    private String getUrl(String url) {
-        url = url.replace(" ", "")
-                .replace("$", "");
-
-        //TODO:  '/app/customer_contract/v2/online/getOnlineEditPage.do?contractId='+id ，将？后面参数处理放入到req_params
-
-        if (url.startsWith("/")) {
-            return url;
-        } else {
-            return "/" + url;
-        }
-    }
 
 }
