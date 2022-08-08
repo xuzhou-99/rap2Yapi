@@ -96,6 +96,7 @@ function changeRap() {
             nlen = m.properties.length; n < nlen; n++) {
               var p = m.properties[n];
               if (p.scope === 'request') continue;
+
               var suf = p.parentId === -1 ? m.id: p.parentId;
               if (!ds['Response' + suf]) ds['Response' + suf] = {
                 title: 'Response' + suf,

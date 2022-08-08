@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.qingyan.raptojson.raptojson.RapParseException;
 import com.qingyan.raptojson.raptojson.RapUtil;
 import com.qingyan.raptojson.raptojson.enums.JsonConvertTypeEnum;
@@ -75,7 +76,8 @@ public class Rap2ConvertYapiService {
         swagger.put("definitions", definitions);
 
 
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger,
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath,
+                JSON.toJSONString(swagger, SerializerFeature.DisableCircularReferenceDetect),
                 "swagger_" + data.getString("name"),
                 data.getString("name"), JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
 
@@ -121,7 +123,7 @@ public class Rap2ConvertYapiService {
 
             for (Object i : interfaces) {
                 JSONObject inter = JSON.parseObject(JSON.toJSONString(i));
-                String interMethod = inter.getString("method".toLowerCase());
+                String interMethod = inter.getString("method").toLowerCase();
                 log.info("Rap2接口转 Swagger json：【接口】模块 {} ，接口 {}，url {}",
                         moduleName,
                         inter.getString("name"),
@@ -130,10 +132,13 @@ public class Rap2ConvertYapiService {
                 JSONObject path = new JSONObject();
                 JSONObject method = new JSONObject();
 
-                // TODO：无key数组序列化的时候有问题
-                List<String> tags = new ArrayList<>();
-                tags.add(moduleName);
-                method.put("tags", tags);
+                // JSON内容循环会因为已有对象进行引用对应的地址，可以手动在序列化的时候关闭
+                // 关闭FastJson循环引用 SerializerFeature.DisableCircularReferenceDetect
+                JSONArray tagArray = new JSONArray();
+                tagArray.add(moduleName);
+                log.info("tagArray：{}", JSON.toJSONString(tagArray));
+                method.put("tags", tagArray);
+
                 method.put("summary", inter.getString("name"));
                 if ("post".equals(interMethod)) {
                     method.put("consumes", Collections.singletonList("multipart/form-data"));
@@ -174,6 +179,7 @@ public class Rap2ConvertYapiService {
             if (Objects.equals(prop.getString("scope"), "response")) {
                 continue;
             }
+
             JSONObject item = new JSONObject();
             item.put("name", prop.getString("name"));
             item.put("in", "get".equals(method) ? "query" : "formData");
@@ -219,7 +225,7 @@ public class Rap2ConvertYapiService {
                         continue;
                     }
 
-                    Integer suf = prop.getInteger("parentId") == -1 ? module.getInteger("id") : prop.getInteger("parentId");
+                    Integer suf = prop.getInteger("parentId") == -1 ? inter.getInteger("id") : prop.getInteger("parentId");
                     String responseSuf = "Response" + suf;
                     JSONObject response = new JSONObject();
                     if (definitions.get(responseSuf) == null) {
@@ -237,11 +243,11 @@ public class Rap2ConvertYapiService {
                     JSONObject ref = new JSONObject();
                     switch (prop.getString("type")) {
                         case "Object":
-                            ref.put("$ref", "#/definitions/Response" + prop.getString("id"));
+                            ref.put("$ref", "#/definitions/Response" + suf);
                             break;
                         case "Array":
                             JSONObject items = new JSONObject();
-                            items.put("$ref", "#/definitions/Response" + prop.getString("id"));
+                            items.put("$ref", "#/definitions/Response" + suf);
                             ref.put("type", "array");
                             ref.put("items", items);
                             break;

@@ -51,20 +51,19 @@ public class RapApiService {
      * @param repositoryId Rap项目Id
      * @return 接口集合 json string
      */
-    public String getRap2InterfaceByProjectId(String rapUrl, String repositoryId) {
+    public String getRap2InterfaceByProjectId(String rapUrl, String repositoryId, String token) {
         Map<String, Object> params = new HashMap<>(2);
         params.put("id", repositoryId);
+        params.put("token", token);
 
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Cookie", "_yapi_uid=11; koa.sid=hWpktmskQTDzZuApMeljL2cYkxouG1SW; koa.sid.sig=Fbhd-20JRmGkyA8N3b-BLH_Clo8; _yapi_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjExLCJpYXQiOjE2NTk2NzkyODcsImV4cCI6MTY2MDI4NDA4N30.G_W0khuORE1UoFCJoTNK7SS-SdLJV9U1KZLCNmJalFM");
-        HttpResult httpResult = HttpClientUtils.doGet(rapUrl + Rap2ApiEnums.api_repository.getApi(), params, headers);
+        HttpResult httpResult = HttpClientUtils.doGet(rapUrl + Rap2ApiEnums.api_repository.getApi(), params);
 
         if (httpResult == null) {
             throw new RuntimeException("接口返回结果为空");
         }
         String stringEntity = httpResult.getStringEntity();
 
-        if (stringEntity == null || stringEntity =="") {
+        if (stringEntity == null || stringEntity == "") {
             throw new RuntimeException("接口返回结果为空");
         }
 

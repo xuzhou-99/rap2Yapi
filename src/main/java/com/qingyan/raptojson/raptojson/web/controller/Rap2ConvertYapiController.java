@@ -38,9 +38,6 @@ public class Rap2ConvertYapiController {
     private String rap2Url;
 
     @Resource
-    private RapConvertYapiService rapConvertYapiService;
-
-    @Resource
     private Rap2ConvertYapiService rap2ConvertYapiService;
 
     @Resource
@@ -54,7 +51,7 @@ public class Rap2ConvertYapiController {
      */
     @GetMapping("/swagger/json/{repositoryId}")
     @ResponseBody
-    public ApiResponse rapSwaggerJson(@PathVariable String repositoryId) {
+    public ApiResponse rapSwaggerJson(@PathVariable String repositoryId, String token) {
 
         try {
 
@@ -62,7 +59,7 @@ public class Rap2ConvertYapiController {
                 return ApiDataResponse.ofError("查询数据失败，rap projectId不能为空");
             }
 
-            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId);
+            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, token);
 
             JSONObject rap2Json = JSON.parseObject(rap2JsonStr);
             List<String> rap2JsonList = rap2ConvertYapiService.rapSwaggerJson(rap2Json);
@@ -92,10 +89,10 @@ public class Rap2ConvertYapiController {
                 return ApiDataResponse.ofError("查询数据失败，rap projectId不能为空");
             }
 
-            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId);
+            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, "");
 
             JSONObject rap2Json = JSON.parseObject(rap2JsonStr);
-            List<String> rap2JsonList = rap2ConvertYapiService.rapYApiJson(rap2Json,"","");
+            List<String> rap2JsonList = rap2ConvertYapiService.rapYApiJson(rap2Json, "", "");
             return ApiDataResponse.ofSuccess("rap2 项目 " + repositoryId + " 转为Swagger json文件成功", rap2JsonList);
 
         } catch (Exception e) {
