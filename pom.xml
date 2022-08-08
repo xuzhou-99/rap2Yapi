@@ -19,6 +19,7 @@
         <java.version>1.8</java.version>
         <fastjson.version>2.0.7</fastjson.version>
         <httpClient.version>4.5.13</httpClient.version>
+        <swagger.version>3.0.0</swagger.version>
     </properties>
 
     <dependencies>
@@ -71,6 +72,13 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- 引入Swagger3依赖 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
     </dependencies>
 

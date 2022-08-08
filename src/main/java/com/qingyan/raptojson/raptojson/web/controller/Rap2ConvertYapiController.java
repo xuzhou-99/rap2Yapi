@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,7 +52,7 @@ public class Rap2ConvertYapiController {
      * @param repositoryId rap项目Id
      * @return 操作结果
      */
-    @RequestMapping("/swagger/json/{repositoryId}")
+    @GetMapping("/swagger/json/{repositoryId}")
     @ResponseBody
     public ApiResponse rapSwaggerJson(@PathVariable String repositoryId) {
 
@@ -82,7 +83,7 @@ public class Rap2ConvertYapiController {
      * @param type         处理类型
      * @return 操作结果
      */
-    @RequestMapping("/yapi/json/{repositoryId}")
+    @GetMapping("/yapi/json/{repositoryId}")
     @ResponseBody
     public ApiResponse rapYApiJson(@PathVariable String repositoryId) {
         try {

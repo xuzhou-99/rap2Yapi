@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,11 @@ import com.qingyan.raptojson.raptojson.service.RapApiService;
 import com.qingyan.raptojson.response.ApiDataResponse;
 import com.qingyan.raptojson.response.ApiResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 
 /**
  * Rap接口转YApi
@@ -24,6 +30,7 @@ import com.qingyan.raptojson.response.ApiResponse;
  * @author xuzhou
  * @since 2022/8/2
  */
+@Api
 @Controller
 @RequestMapping("/api/v1/rap")
 public class RapConvertYapiController {
@@ -40,8 +47,9 @@ public class RapConvertYapiController {
     /**
      * RAP接口
      **/
-    @RequestMapping("/yapi/{rapProjectId}/{projectId}")
+    @GetMapping("/yapi/{rapProjectId}/{projectId}")
     @ResponseBody
+    @ApiOperation("RAP接口")
     public ApiResponse rap2YApi(@PathVariable String rapProjectId, @PathVariable String projectId) {
 
         if (rapProjectId == "" || rapProjectId == null) {
@@ -66,11 +74,18 @@ public class RapConvertYapiController {
      * Rap 接口转 YApi 导入 json
      *
      * @param rapProjectId rap项目Id
-     * @param type         处理类型
+     * @param type         处理类型：module 模块作为分类；page:页面作为接口分类
      * @return 操作结果
      */
-    @RequestMapping("/json/{type}/{rapProjectId}")
+    @GetMapping("/json/{type}/{rapProjectId}")
     @ResponseBody
+    @ApiOperation("Rap 接口转 YApi 导入 json")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "处理类型：module 模块作为分类；page:页面作为接口分类",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(name = "rapProjectId", value = "rap项目Id",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+    })
     public ApiResponse rapJson(@PathVariable String rapProjectId, @PathVariable(required = false) String type) {
 
         if (rapProjectId == "" || rapProjectId == null) {
@@ -94,12 +109,20 @@ public class RapConvertYapiController {
      * Rap 接口转 YApi 导入 json（一个json）
      *
      * @param rapProjectId rap项目Id
-     * @param type         处理类型
+     * @param type         处理类型：module 模块作为分类；page:页面作为接口分类
      * @return 操作结果
      */
-    @RequestMapping("/json/toOne/{type}/{rapProjectId}")
+    @GetMapping("/json/toOne/{type}/{rapProjectId}")
     @ResponseBody
-    public ApiResponse rapJsonToOne(@PathVariable String rapProjectId, @PathVariable(required = false) String type) {
+    @ApiOperation("Rap 接口转 YApi 导入 json（一个json)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "处理类型：module 模块作为分类；page:页面作为接口分类",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(name = "rapProjectId", value = "rap项目Id",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+    })
+    public ApiResponse rapJsonToOne(@PathVariable String rapProjectId,
+                                    @PathVariable(required = false) String type) {
 
         if (rapProjectId == "" || rapProjectId == null) {
             return ApiDataResponse.ofError("查询数据失败，rap projectId不能为空");

@@ -5,7 +5,10 @@ spring:
     connection-timeout:
     channel-rpc-timeout:
 
-
+  # swagger
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server:
   port: 8088
   #  port: 443
@@ -15,7 +18,9 @@ server:
 
 # the target path , rap to json
 json:
-  rootPath: /rapJson
+  isShare: true
+  rootPath: /shareFile/apiJson
+  sharePath: file://DESKTOP-B7C8MM8
 
 
 url:
