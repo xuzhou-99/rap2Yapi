@@ -47,8 +47,8 @@ public class RapApiService {
     /**
      * 根据Rap 项目Id和url获取项目接口集合
      *
-     * @param rapUrl       RapUrl
-     * @param repositoryId Rap项目Id
+     * @param rapUrl       Rap2Url
+     * @param repositoryId Rap2仓库Id
      * @return 接口集合 json string
      */
     public String getRap2InterfaceByProjectId(String rapUrl, String repositoryId, String token) {
@@ -60,6 +60,9 @@ public class RapApiService {
 
         if (httpResult == null) {
             throw new RuntimeException("接口返回结果为空");
+        }
+        if (httpResult.getStatus() == 500) {
+            throw new RuntimeException(httpResult.getStringEntity());
         }
         String stringEntity = httpResult.getStringEntity();
 

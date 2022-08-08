@@ -18,8 +18,11 @@ server:
 
 # the target path , rap to json
 json:
+  # local share
   isShare: true
+  # target path
   rootPath: /shareFile/apiJson
+  # local share path
   sharePath: file://DESKTOP-B7C8MM8
 
 

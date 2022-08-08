@@ -19,7 +19,7 @@ public class Interfaces {
     private String method;
     private String bodyOption;
     private String description;
-    private int priority;
+    private long priority;
     private int status;
     private long creatorId;
     private String lockerId;
@@ -72,10 +72,10 @@ public class Interfaces {
          return description;
      }
 
-    public void setPriority(int priority) {
+    public void setPriority(long priority) {
          this.priority = priority;
      }
-     public int getPriority() {
+     public long getPriority() {
          return priority;
      }
 

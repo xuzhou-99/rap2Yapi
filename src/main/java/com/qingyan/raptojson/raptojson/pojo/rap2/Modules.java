@@ -16,7 +16,7 @@ public class Modules {
     private int id;
     private String name;
     private String description;
-    private int priority;
+    private long priority;
     private long creatorId;
     private int repositoryId;
     private Date createdAt;
@@ -44,10 +44,10 @@ public class Modules {
          return description;
      }
 
-    public void setPriority(int priority) {
+    public void setPriority(long priority) {
          this.priority = priority;
      }
-     public int getPriority() {
+     public long getPriority() {
          return priority;
      }
 

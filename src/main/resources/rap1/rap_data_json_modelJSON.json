@@ -1,0 +1,2482 @@
+{
+  "createDateStr": "2017-03-02",
+  "user": {
+    "name": "admin",
+    "id": 1
+  },
+  "id": 49,
+  "version": "0.0.0.1021",
+  "introduction": "customer_visit",
+  "name": "客户拜访",
+  "moduleList": [
+    {
+      "id": 147,
+      "introduction": "",
+      "name": "client",
+      "pageList": [
+        {
+          "id": 306,
+          "introduction": "线路相关接口",
+          "name": "线路",
+          "actionList": [
+            {
+              "id": 1527,
+              "name": "分页获取待审批的业代排序",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/v1\/getToArrpoveList.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27735,
+                  "identifier": "condition.page",
+                  "name": "第几页",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27734,
+                  "identifier": "condition.limit",
+                  "name": "一页多少行记录",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27744,
+                  "identifier": "limit",
+                  "name": "一页多少行记录",
+                  "remark": "@mock=10",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27736,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=获取待审批列表成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27737,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27740,
+                  "identifier": "data",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 27742,
+                      "identifier": "emp_name",
+                      "name": "员工id",
+                      "remark": "@mock=flow_01",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27743,
+                      "identifier": "apply_id",
+                      "name": "申请id",
+                      "remark": "@mock=8346848517397882702",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27741,
+                      "identifier": "line_name",
+                      "name": "线路名称",
+                      "remark": "@mock=自己的线路",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 27739,
+                  "identifier": "page",
+                  "name": "当前页数",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27738,
+                  "identifier": "freWeek",
+                  "name": "企业参数：是否按周循环【0：否；1：是】",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                }
+              ]
+            },
+            {
+              "id": 1528,
+              "name": "审批",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/v1\/approve.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27748,
+                  "identifier": "approve.applyId",
+                  "name": "申请id",
+                  "remark": "线路修改  applyId 以L- 开头",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27747,
+                  "identifier": "approve.opinion",
+                  "name": "审批意见",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27745,
+                  "identifier": "approve.lineId",
+                  "name": "线路id",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27746,
+                  "identifier": "approve.approveType",
+                  "name": "1:通过\/2:打回",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27750,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=审批成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27749,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            },
+            {
+              "id": 1529,
+              "name": "申请重新排序",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/v1\/saveArrange.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27752,
+                  "identifier": "lineData.id",
+                  "name": "线路id",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27751,
+                  "identifier": "lineData.remarks",
+                  "name": "申请理由",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27753,
+                  "identifier": "lineData.customers",
+                  "name": "重新排序后的客户id，以英文逗号分隔的字符串",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27754,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27755,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=保存成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 30177,
+                  "identifier": "approvalStatus",
+                  "name": "线路状态",
+                  "remark": "0.待审批",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            },
+            {
+              "id": 1530,
+              "name": "获取审批详情",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/v1\/approveDetail.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27756,
+                  "identifier": "approveId",
+                  "name": "审批id",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27777,
+                  "identifier": "rearrange",
+                  "name": "是否可以重新排序1:可以\/0:不可以",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27778,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27775,
+                  "identifier": "opinion",
+                  "name": "审批意见",
+                  "remark": "@mock=ton通过哇",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27760,
+                  "identifier": "apply_reason",
+                  "name": "申请理由",
+                  "remark": "@mock=abcdefg",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27759,
+                  "identifier": "approve_type",
+                  "name": "审批状态，1:通过\/2:打回",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27761,
+                  "identifier": "cusList",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 27769,
+                      "identifier": "new_seq",
+                      "name": "",
+                      "remark": "@mock=0",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27770,
+                      "identifier": "apply_reason",
+                      "name": "申请理由",
+                      "remark": "@mock=abcdefg",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27766,
+                      "identifier": "opinion",
+                      "name": "",
+                      "remark": "@mock=ton通过哇",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27774,
+                      "identifier": "offset",
+                      "name": "",
+                      "remark": "@mock=0",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27771,
+                      "identifier": "approve_type",
+                      "name": "审批状态，1:通过\/2:打回",
+                      "remark": "@mock=1",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27773,
+                      "identifier": "customer",
+                      "name": "客户id",
+                      "remark": "@mock=8397590383265492708",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27762,
+                      "identifier": "location_c",
+                      "name": "",
+                      "remark": "@mock=31.988434,118.730999",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27767,
+                      "identifier": "location_a",
+                      "name": "",
+                      "remark": "@mock=江苏省南京市建邺区河西大街71号明基医院附近",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27764,
+                      "identifier": "customer_name",
+                      "name": "客户名称",
+                      "remark": "@mock=明基医院",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27772,
+                      "identifier": "old_sequ",
+                      "name": "",
+                      "remark": "@mock=0",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27763,
+                      "identifier": "line_name",
+                      "name": "线路名称",
+                      "remark": "@mock=houhouhou",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27768,
+                      "identifier": "visitor",
+                      "name": "",
+                      "remark": "@mock=4635750804685588572",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27765,
+                      "identifier": "emp_name",
+                      "name": "拜访人名称",
+                      "remark": "@mock=flow_03",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 27758,
+                  "identifier": "emp_name",
+                  "name": "拜访人名称",
+                  "remark": "@mock=flow_03",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27776,
+                  "identifier": "line_name",
+                  "name": "线路名称",
+                  "remark": "@mock=houhouhou",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27757,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=获取审批详情",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            },
+            {
+              "id": 1538,
+              "name": "获取计划管理数据",
+              "description": "",
+              "requestType": "1",
+              "requestUrl": "\/app\/customer_visit\/client\/v1\/getPlans.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28620,
+                  "identifier": "condition.hasCheck",
+                  "name": "",
+                  "remark": "1有检核协访",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 30342,
+                  "identifier": "add_plan",
+                  "name": "新增计划",
+                  "remark": "1有权限，0没有",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27932,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27969,
+                  "identifier": "limit",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27936,
+                  "identifier": "data",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 27961,
+                      "identifier": "num",
+                      "name": "",
+                      "remark": "拜访计划数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27942,
+                      "identifier": "plans",
+                      "name": "",
+                      "remark": "常规计划详情",
+                      "parameterList": [
+                        {
+                          "id": 27952,
+                          "identifier": "checkEmpName",
+                          "name": "",
+                          "remark": "被检核人名称",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27956,
+                          "identifier": "planContent",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27947,
+                          "identifier": "approvalStatus",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27943,
+                          "identifier": "visitorId",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27957,
+                          "identifier": "active",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27950,
+                          "identifier": "id",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27953,
+                          "identifier": "locationA",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27945,
+                          "identifier": "creatorId",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27954,
+                          "identifier": "visitStatus",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27959,
+                          "identifier": "customer",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27944,
+                          "identifier": "isFinished",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27946,
+                          "identifier": "locationC",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27948,
+                          "identifier": "checkEmpId",
+                          "name": "",
+                          "remark": "被检核人ID",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27951,
+                          "identifier": "hasGenCus",
+                          "name": "",
+                          "remark": "1，已生成客户的计划，2未生成客户的检核协访计划",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27958,
+                          "identifier": "remindTime",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27960,
+                          "identifier": "customerName",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27955,
+                          "identifier": "visitDate",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 27949,
+                          "identifier": "visitType",
+                          "name": "",
+                          "remark": "5检核  6协访",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        }
+                      ],
+                      "validator": "",
+                      "dataType": "array<object>"
+                    },
+                    {
+                      "id": 27967,
+                      "identifier": "hasUnapproval",
+                      "name": "",
+                      "remark": "有待审批",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27966,
+                      "identifier": "isSuperior",
+                      "name": "",
+                      "remark": "是否是上级",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27938,
+                      "identifier": "check_plans",
+                      "name": "字段同plans",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "array<object>"
+                    },
+                    {
+                      "id": 27964,
+                      "identifier": "userId",
+                      "name": "",
+                      "remark": "拜访人ID",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 29357,
+                      "identifier": "cycle_num_total",
+                      "name": "",
+                      "remark": "周期总拜访家数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27941,
+                      "identifier": "canApprovalCheck",
+                      "name": "",
+                      "remark": "检核计划是否可审批",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 29360,
+                      "identifier": "cycle_num_new",
+                      "name": "",
+                      "remark": "周期可拜访家数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27962,
+                      "identifier": "canApproval",
+                      "name": "",
+                      "remark": "常规计划是否可审批",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27940,
+                      "identifier": "check_num",
+                      "name": "",
+                      "remark": "检核人数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27965,
+                      "identifier": "cycle_num",
+                      "name": "",
+                      "remark": "周期计划数（624以前版本）",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27963,
+                      "identifier": "canApprovalCo",
+                      "name": "",
+                      "remark": "协访计划是否可审批",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27937,
+                      "identifier": "co_num",
+                      "name": "",
+                      "remark": "协访人数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27939,
+                      "identifier": "userName",
+                      "name": "",
+                      "remark": "拜访人名称",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 30341,
+                  "identifier": "line_manager",
+                  "name": "线路管理",
+                  "remark": "1有权限，0没有",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27935,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27931,
+                  "identifier": "canAddCheckPlan",
+                  "name": "",
+                  "remark": "1可以增加检核计划，0不能",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27968,
+                  "identifier": "canAddCoPlan",
+                  "name": "",
+                  "remark": "1可以增加协访计划，0不能",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 30178,
+                  "identifier": "oneDayLimitOneRoute",
+                  "name": "一天只能选择一条线路生成计划",
+                  "remark": "1.true 0.false",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27933,
+                  "identifier": "header_data",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 27934,
+                      "identifier": "yyyy-mm-dd",
+                      "name": "",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "object"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 307,
+          "introduction": "",
+          "name": "部门报表",
+          "actionList": [
+            {
+              "id": 1539,
+              "name": "完成率-下级人员",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/client\/cusVisit\/report\/completeUsers.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27970,
+                  "identifier": "cus_type",
+                  "name": "客户类型",
+                  "remark": "1:标准版客户 2:经销商 3:终端门店",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27971,
+                  "identifier": "time_type",
+                  "name": "时间类型",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 27972,
+                  "identifier": "dept_id",
+                  "name": "上级部门ID",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27981,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                },
+                {
+                  "id": 27980,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27979,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27973,
+                  "identifier": "data|12",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 27978,
+                      "identifier": "total",
+                      "name": "总计划",
+                      "remark": "@mock=$order(3,0,0,0,0,0,0,0,0,0,0,0)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27974,
+                      "identifier": "face",
+                      "name": "头像",
+                      "remark": "@mock=$order(\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\',\'\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27975,
+                      "identifier": "num",
+                      "name": "已完成",
+                      "remark": "@mock=$order(1,0,0,0,0,0,0,0,0,0,0,0)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 27977,
+                      "identifier": "name",
+                      "name": "人员姓名",
+                      "remark": "@mock=$order(\'杜瑞\',\'15151818128\',\'cs\',\'dr_01\',\'lb\',\'test\',\'test2\',\'test3\',\'zm\',\'苏善著\',\'小仙女\',\'员工1\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 27976,
+                      "identifier": "rate",
+                      "name": "完成率",
+                      "remark": "@mock=$order(33,0,0,0,0,0,0,0,0,0,0,0)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                }
+              ]
+            },
+            {
+              "id": 1540,
+              "name": "完成率-下级部门",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/client\/cusVisit\/report\/completeDepts.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 27983,
+                  "identifier": "dept_id",
+                  "name": "上级部门ID",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": ""
+                },
+                {
+                  "id": 27982,
+                  "identifier": "cus_type",
+                  "name": "客户类型",
+                  "remark": "1:标准版客户 2:经销商 3:终端门店",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27984,
+                  "identifier": "time_type",
+                  "name": "时间类型",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": ""
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 27986,
+                  "identifier": "data|4",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 39731,
+                      "identifier": "id",
+                      "name": "部门ID",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 39732,
+                      "identifier": "name",
+                      "name": "部门名称",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 39733,
+                      "identifier": "num",
+                      "name": "已完成",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 39734,
+                      "identifier": "rate",
+                      "name": "完成率",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 39735,
+                      "identifier": "total",
+                      "name": "总计划",
+                      "remark": "",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 27985,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27992,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 27993,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                }
+              ]
+            },
+            {
+              "id": 8942,
+              "name": "客户拜访分析-拜访计划明细",
+              "description": "",
+              "requestType": "1",
+              "requestUrl": "\/app\/customer_visit\/cusVisitPlan\/queryPlanList.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 187888,
+                  "identifier": "date_start",
+                  "name": "开始日期",
+                  "remark": "@mock=2022-07-19",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 187891,
+                  "identifier": "visit_status",
+                  "name": "拜访状态",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 187892,
+                  "identifier": "visitor",
+                  "name": "拜访人",
+                  "remark": "@mock=4890368659913396089",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 187887,
+                  "identifier": "date_end",
+                  "name": "结束日期",
+                  "remark": "@mock=2022-07-26",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 187889,
+                  "identifier": "page",
+                  "name": "分页",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 187890,
+                  "identifier": "rows",
+                  "name": "行数",
+                  "remark": "@mock=20",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 187886,
+                  "identifier": "cus_type",
+                  "name": "客户类型",
+                  "remark": "@mock=2",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 187893,
+                  "identifier": "footer",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "object"
+                },
+                {
+                  "id": 187902,
+                  "identifier": "total",
+                  "name": "总数",
+                  "remark": "@mock=390",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 187894,
+                  "identifier": "rows|20",
+                  "name": "内容",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 187898,
+                      "identifier": "is_finished",
+                      "name": "是否完成",
+                      "remark": "@mock=$order(\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187901,
+                      "identifier": "visit_status",
+                      "name": "拜访状态",
+                      "remark": "@mock=$order(\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187896,
+                      "identifier": "customer_name",
+                      "name": "客户名称",
+                      "remark": "@mock=$order(\'经销商1008\',\'经销商1014\',\'经销商1003\',\'经销商1007\',\'经销商1010\',\'经销商1013\',\'经销商100\',\'经销商1002\',\'经销商1005\',\'经销商1006\',\'经销商1009\',\'经销商101\',\'经销商1011\',\'经销商1012\',\'经销商1\',\'经销商10\',\'经销商1000\',\'经销商1001\',\'经销商1004\',\'经销商1015\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187895,
+                      "identifier": "customer_id",
+                      "name": "客户Id",
+                      "remark": "@mock=$order(\'5992626279986770332\',\'8184174572248638627\',\'7665746637341107626\',\'4726210124550838894\',\'7461461218162926839\',\'6424301698536515929\',\'8825662620141407601\',\'8160049734579460228\',\'4813273751372602101\',\'5682170314164537957\',\'5453100992188326326\',\'6289445328267691794\',\'7451279334748021587\',\'6341738748676851042\',\'5072346407390995455\',\'7299085732660278719\',\'6948922952511109305\',\'5868379201393753002\',\'7836443245086738986\',\'4880229770211030395\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187899,
+                      "identifier": "plan_status",
+                      "name": "计划状态",
+                      "remark": "@mock=$order(\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\',\'0\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187900,
+                      "identifier": "visit_date",
+                      "name": "拜访日期",
+                      "remark": "@mock=$order(\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\',\'2022-07-26\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 187897,
+                      "identifier": "id",
+                      "name": "拜访id",
+                      "remark": "@mock=$order(\'4625944076411387295\',\'4625944076412851568\',\'4625944076419947840\',\'4625944076412284575\',\'4625944076413358751\',\'4625944076417998622\',\'4625944076416423481\',\'4625944076416665745\',\'4625944076414742844\',\'4625944076413475299\',\'4625944076412689005\',\'4625944076415467469\',\'4625944076413371994\',\'4625944076412407760\',\'4625944076415593524\',\'4625944076417346488\',\'4625944076411802601\',\'4625944076414608949\',\'4625944076412380328\',\'4625944076415928364\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 309,
+          "introduction": "",
+          "name": "周期计划",
+          "actionList": [
+            {
+              "id": 1557,
+              "name": "近期计划",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "app\/customer_visit\/cyclePlan\/getCyclePlan.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28147,
+                  "identifier": "visitor",
+                  "name": "拜访人ID",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28146,
+                  "identifier": "plan_date",
+                  "name": "计划日期",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28158,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28149,
+                  "identifier": "data|2",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 28154,
+                      "identifier": "id",
+                      "name": "",
+                      "remark": "周期ID@mock=$order(\'3\',\'2\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28152,
+                      "identifier": "visit_cus_num",
+                      "name": "",
+                      "remark": "已拜访数量@mock=$order(0,0)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 28153,
+                      "identifier": "cycle_name",
+                      "name": "",
+                      "remark": "周期名称@mock=$order(\'测试计划3\',\'测试计划2\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28156,
+                      "identifier": "end_date",
+                      "name": "",
+                      "remark": "周期结束日期@mock=$order(\'2018-02-01\',\'2018-02-04\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28155,
+                      "identifier": "days_remaining",
+                      "name": "",
+                      "remark": "截止日期@mock=$order(1,4)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 28151,
+                      "identifier": "start_date",
+                      "name": "",
+                      "remark": "周期开始日期@mock=$order(\'2018-01-29\',\'2018-01-29\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28150,
+                      "identifier": "cus_num",
+                      "name": "",
+                      "remark": "客户总数@mock=$order(0,2)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 28157,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                },
+                {
+                  "id": 28148,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            },
+            {
+              "id": 1607,
+              "name": "近期计划客户(新版)",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "app\/customer_visit\/cyclePlan\/getCyclePlanCustomerNew.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 30214,
+                  "identifier": "page",
+                  "name": "页码，从1开始",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28937,
+                  "identifier": "location",
+                  "name": "当前定位坐标",
+                  "remark": "例如：31.98363,118.730704",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28936,
+                  "identifier": "condition",
+                  "name": "查询参数",
+                  "remark": "匹配客户和客户联系人",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28938,
+                  "identifier": "plan_date",
+                  "name": "计划日期",
+                  "remark": "可为空，为空即为当天日期，格式：yyyy-mm-dd",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28939,
+                  "identifier": "sort",
+                  "name": "排序字段",
+                  "remark": "默认距离传1，日期排序传2",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28940,
+                  "identifier": "visitor",
+                  "name": "拜访人ID",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28941,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28942,
+                  "identifier": "data|2",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 28945,
+                      "identifier": "cus_name",
+                      "name": "",
+                      "remark": "客户名称@mock=$order(\'吉祥混沌\',\'金浩测试店2\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28954,
+                      "identifier": "visit_date",
+                      "name": "",
+                      "remark": "近期拜访时间@mock=$order(\'\',\'\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28947,
+                      "identifier": "distances",
+                      "name": "",
+                      "remark": "距离",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28955,
+                      "identifier": "visit_id",
+                      "name": "",
+                      "remark": "拜访id(有值则为已拜访)",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28950,
+                      "identifier": "location_a",
+                      "name": "",
+                      "remark": "客户地址",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28949,
+                      "identifier": "is_today",
+                      "name": "",
+                      "remark": "0：不是当天 1：今天",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28953,
+                      "identifier": "trade_type",
+                      "name": "",
+                      "remark": "终端类型",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28951,
+                      "identifier": "location_c",
+                      "name": "",
+                      "remark": "客户位置",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28956,
+                      "identifier": "visit_status",
+                      "name": "",
+                      "remark": "0:未拜访，1:已拜访",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28944,
+                      "identifier": "cus_code",
+                      "name": "",
+                      "remark": "客户code",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28957,
+                      "identifier": "visit_type",
+                      "name": "",
+                      "remark": "拜访类型，1:计划拜访，2:临时拜访，3:线路拜访",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28943,
+                      "identifier": "addr",
+                      "name": "",
+                      "remark": "地址",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28968,
+                      "identifier": "content",
+                      "name": "",
+                      "remark": "计划内容",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 28967,
+                      "identifier": "days_remaining",
+                      "name": "",
+                      "remark": "截止天数",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28946,
+                      "identifier": "customer",
+                      "name": "",
+                      "remark": "客户ID@mock=$order(\'6031107749734439150\',\'5742455073132501980\')",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28948,
+                      "identifier": "is_finished",
+                      "name": "",
+                      "remark": "0：未完成拜访 1：已完成拜访",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                },
+                {
+                  "id": 30227,
+                  "identifier": "rows",
+                  "name": "每页数量",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "number"
+                },
+                {
+                  "id": 28958,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28959,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                }
+              ]
+            },
+            {
+              "id": 1927,
+              "name": "新增周期计划",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/cycle_plan\/saveCyclePlan.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 34993,
+                  "identifier": "startDate",
+                  "name": "开始日期",
+                  "remark": "格式：YYYY-MM-DD",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34991,
+                  "identifier": "planName",
+                  "name": "计划名称",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34992,
+                  "identifier": "remarks",
+                  "name": "备注",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34989,
+                  "identifier": "endDate",
+                  "name": "结束日期",
+                  "remark": "格式：YYYY-MM-DD",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34990,
+                  "identifier": "frequency",
+                  "name": "拜访频率",
+                  "remark": "拜访频率ID",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34994,
+                  "identifier": "visitorId",
+                  "name": "拜访人ID",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34988,
+                  "identifier": "customerIds",
+                  "name": "拜访客户ID",
+                  "remark": "\',\'分隔",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 34996,
+                  "identifier": "data",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34998,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                },
+                {
+                  "id": 34997,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 34995,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "introduction": "",
+      "name": "WEB",
+      "pageList": [
+        {
+          "id": 313,
+          "introduction": "",
+          "name": "拜访步骤设置",
+          "actionList": [
+            {
+              "id": 1568,
+              "name": "新增拜访流程",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/web\/flowset\/flowAdd.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28350,
+                  "identifier": "visitFlowSet.isAllowedLeave",
+                  "name": "必须执行功能未执行完之前禁止离开登记",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28342,
+                  "identifier": "visitFlowSet.cusCondition",
+                  "name": "客户范围条件",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28351,
+                  "identifier": "visitFlowSet.roleIds",
+                  "name": "角色选择",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28344,
+                  "identifier": "visitFlowSet.deptIds",
+                  "name": "部门选择",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28348,
+                  "identifier": "visitFlowSet.posts",
+                  "name": "职务选择",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28341,
+                  "identifier": "visitFlowSet.funcsStr",
+                  "name": "拜访流程功能",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28352,
+                  "identifier": "visitFlowSet.isNeedPosition",
+                  "name": "抵达、离开是否为隐形定位",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28346,
+                  "identifier": "visitFlowSet.photoSet",
+                  "name": "拜访拍照设置",
+                  "remark": "0:抵达和离开不强制拍照  1:抵达和离开位置异常时强制拍照  2:抵达和离开强制拍照",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28343,
+                  "identifier": "visitFlowSet.flowName",
+                  "name": "流程名称",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28347,
+                  "identifier": "visitFlowSet.tradeType",
+                  "name": "客户范围中客户类型",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28349,
+                  "identifier": "visitFlowSet.isAll",
+                  "name": "客户范围是否不限",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28345,
+                  "identifier": "visitFlowSet.userIds",
+                  "name": "人员选择",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": []
+            },
+            {
+              "id": 1569,
+              "name": "修改拜访流程",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "",
+              "responseTemplate": "",
+              "requestParameterList": [],
+              "responseParameterList": []
+            },
+            {
+              "id": 1570,
+              "name": "计划提醒－保存设置",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/visit_message\/saveSettings.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28354,
+                  "identifier": "data.sendDateMode",
+                  "name": "提醒日期",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28355,
+                  "identifier": "data.sendTime",
+                  "name": "提醒时间",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28353,
+                  "identifier": "data.isOpen",
+                  "name": "是否开启提醒",
+                  "remark": "0:关闭,１:开启",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28356,
+                  "identifier": "message",
+                  "name": "响应消息",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28357,
+                  "identifier": "code",
+                  "name": "响应状态",
+                  "remark": "0:失败,1:成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 314,
+          "introduction": "",
+          "name": "客户画像",
+          "actionList": [
+            {
+              "id": 1574,
+              "name": "拜访分析",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "\/app\/customer_visit\/client\/statistics\/visitStatistics.action",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28383,
+                  "identifier": "startTime",
+                  "name": "开始时间",
+                  "remark": "选填",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28382,
+                  "identifier": "endTime",
+                  "name": "结束时间",
+                  "remark": "选填",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28384,
+                  "identifier": "customer",
+                  "name": "客户ID",
+                  "remark": "必填",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28390,
+                  "identifier": "message",
+                  "name": "响应消息",
+                  "remark": "结果描述",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28389,
+                  "identifier": "code",
+                  "name": "响应结果",
+                  "remark": "0 失败  1 成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28385,
+                  "identifier": "data",
+                  "name": "响应数据",
+                  "remark": "返回数据",
+                  "parameterList": [
+                    {
+                      "id": 28387,
+                      "identifier": "month",
+                      "name": "",
+                      "remark": "月份描述  如：6月",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28388,
+                      "identifier": "value",
+                      "name": "",
+                      "remark": "对应月份的数量",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28386,
+                      "identifier": "date",
+                      "name": "",
+                      "remark": "日期  如：2015-07",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 315,
+          "introduction": "",
+          "name": "线路计划循环",
+          "actionList": [
+            {
+              "id": 1575,
+              "name": "返回线路及线路的客户",
+              "description": "",
+              "requestType": "1",
+              "requestUrl": "\/app\/customer_visit\/CusVisitLinePlan\/getVisitLine.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28392,
+                  "identifier": "visitor",
+                  "name": "拜访人",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28391,
+                  "identifier": "cycleType",
+                  "name": "循环类型",
+                  "remark": "1  周循环  2 线路循环",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28411,
+                  "identifier": "success",
+                  "name": "",
+                  "remark": "@mock=true",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "boolean"
+                },
+                {
+                  "id": 28412,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "@mock=成功",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28410,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "@mock=1",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28393,
+                  "identifier": "data|7",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [
+                    {
+                      "id": 28408,
+                      "identifier": "customercount",
+                      "name": "",
+                      "remark": "客户数量",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 28409,
+                      "identifier": "name",
+                      "name": "",
+                      "remark": "线路名字",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28394,
+                      "identifier": "remarks",
+                      "name": "",
+                      "remark": "标注",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    },
+                    {
+                      "id": 28395,
+                      "identifier": "id",
+                      "name": "",
+                      "remark": "线路id",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "number"
+                    },
+                    {
+                      "id": 28397,
+                      "identifier": "customers",
+                      "name": "",
+                      "remark": "客户列表",
+                      "parameterList": [
+                        {
+                          "id": 28404,
+                          "identifier": "frequence",
+                          "name": "",
+                          "remark": "周 返回  线路 不反回",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 28400,
+                          "identifier": "type_name",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": ""
+                        },
+                        {
+                          "id": 28401,
+                          "identifier": "name",
+                          "name": "",
+                          "remark": "@mock=01驻店人员",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 28399,
+                          "identifier": "can_mark",
+                          "name": "",
+                          "remark": "标注  1 显示  0显示",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 28402,
+                          "identifier": "can_delete",
+                          "name": "",
+                          "remark": "1 显示  0 不显示",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 28406,
+                          "identifier": "id",
+                          "name": "",
+                          "remark": "@mock=6176632060512694000",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "number"
+                        },
+                        {
+                          "id": 28398,
+                          "identifier": "code",
+                          "name": "",
+                          "remark": "@mock=DD000201707451",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": "string"
+                        },
+                        {
+                          "id": 28407,
+                          "identifier": "location_c",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": ""
+                        },
+                        {
+                          "id": 28403,
+                          "identifier": "dist_name",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": ""
+                        },
+                        {
+                          "id": 28405,
+                          "identifier": "location_a",
+                          "name": "",
+                          "remark": "",
+                          "parameterList": [],
+                          "validator": "",
+                          "dataType": ""
+                        }
+                      ],
+                      "validator": "",
+                      "dataType": "array<object>"
+                    },
+                    {
+                      "id": 28396,
+                      "identifier": "can_edit",
+                      "name": "",
+                      "remark": "是否可编辑 1 是  0 不是",
+                      "parameterList": [],
+                      "validator": "",
+                      "dataType": "string"
+                    }
+                  ],
+                  "validator": "",
+                  "dataType": "array<object>"
+                }
+              ]
+            },
+            {
+              "id": 1578,
+              "name": "删除循环线路",
+              "description": "",
+              "requestType": "1",
+              "requestUrl": "\/app\/customer_visit\/CusVisitLinePlan\/deleteCycleLine.do",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28439,
+                  "identifier": "cycleType",
+                  "name": "",
+                  "remark": "循环类型 1 周  2 线路",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28440,
+                  "identifier": "id",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28441,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28442,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            },
+            {
+              "id": 1579,
+              "name": "保存循环线路",
+              "description": "",
+              "requestType": "2",
+              "requestUrl": "",
+              "responseTemplate": "",
+              "requestParameterList": [
+                {
+                  "id": 28448,
+                  "identifier": "startDate",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28446,
+                  "identifier": "visitor",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28447,
+                  "identifier": "endDate",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28443,
+                  "identifier": "id",
+                  "name": "",
+                  "remark": "id  带为修改   不带为新增",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28444,
+                  "identifier": "cycleType",
+                  "name": "",
+                  "remark": "循环类型   1周 2线路",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28445,
+                  "identifier": "lineIds",
+                  "name": "循环线路 id",
+                  "remark": "cycleType 为1   形式 0:234,3:435 字符串   为2形式  234,456这种表示",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ],
+              "responseParameterList": [
+                {
+                  "id": 28450,
+                  "identifier": "message",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                },
+                {
+                  "id": 28449,
+                  "identifier": "code",
+                  "name": "",
+                  "remark": "",
+                  "parameterList": [],
+                  "validator": "",
+                  "dataType": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

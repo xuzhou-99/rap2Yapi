@@ -21,7 +21,7 @@ public class Properties {
     private String value;
     private String description;
     private int parentId;
-    private int priority;
+    private long priority;
     private int interfaceId;
     private long creatorId;
     private int moduleId;
@@ -93,10 +93,10 @@ public class Properties {
          return parentId;
      }
 
-    public void setPriority(int priority) {
+    public void setPriority(long priority) {
          this.priority = priority;
      }
-     public int getPriority() {
+     public long getPriority() {
          return priority;
      }
 

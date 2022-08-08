@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -25,6 +26,7 @@ import com.qingyan.raptojson.raptojson.pojo.rap1.ResponseParameterList;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Data;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Interfaces;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Modules;
+import com.qingyan.raptojson.raptojson.pojo.rap2.Properties;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Rap2JsonRootBean;
 
 import lombok.extern.slf4j.Slf4j;
@@ -76,8 +78,7 @@ public class Rap2ConvertYapiService {
         swagger.put("definitions", definitions);
 
 
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath,
-                JSON.toJSONString(swagger, SerializerFeature.DisableCircularReferenceDetect),
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger,
                 "swagger_" + data.getString("name"),
                 data.getString("name"), JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
 
@@ -319,14 +320,13 @@ public class Rap2ConvertYapiService {
             List<Interfaces> interfaces = module.getInterfaces();
             JSONArray list = new JSONArray();
 
-
             for (Interfaces inter : interfaces) {
 
                 log.info("处理分组【{}】 ： 接口 {}", moduleName, inter.getName());
 
                 if (StringUtils.isNotEmpty(inter.getUrl())) {
 
-                    Map<String, Object> yApiInterface = action2YApiInterface(projectId, catid, inter, moduleName);
+                    Map<String, Object> yApiInterface = action2YApiInterface(projectId, catid, inter);
 
                     list.add(yApiInterface);
                 }
@@ -350,13 +350,12 @@ public class Rap2ConvertYapiService {
     /**
      * Rap action 转为 Yapi 接口 json
      *
-     * @param inter          Rap action接口
-     * @param catid          接口分类Id
-     * @param projectId      项目Id
-     * @param actionPageName 接口所属页面名称
+     * @param inter     Rap action接口
+     * @param catid     接口分类Id
+     * @param projectId 项目Id
      * @return Yapi 接口json
      */
-    private Map<String, Object> action2YApiInterface(String projectId, String catid, Interfaces inter, String actionPageName) {
+    private Map<String, Object> action2YApiInterface(String projectId, String catid, Interfaces inter) {
 
         Map<String, Object> yApiInterface = new HashMap<>(16);
         String interfaceId = "";
@@ -382,10 +381,14 @@ public class Rap2ConvertYapiService {
         JSONArray headers = new JSONArray();
         if (!StringUtils.equals(method, "GET")) {
             JSONObject header = new JSONObject();
+//            header.put("name", "Content-Type");
+//            header.put("value", "application/json");
+
             header.put("name", "Content-Type");
-            header.put("value", "application/json");
+            header.put("value", "multipart/form-data");
             headers.add(header);
         }
+
         yApiInterface.put("req_headers", headers);
 
 
@@ -394,29 +397,30 @@ public class Rap2ConvertYapiService {
         JSONObject req_body_other = null;
         String req_body_type;
 
-//        List<RequestParameterList> requestParameterList = inter.getRequestParameterList();
-        List<RequestParameterList> requestParameterList = new ArrayList<>();
+        List<Properties> propertieReq = inter.getProperties().stream()
+                .filter(o -> "request".equals(o.getScope()))
+                .collect(Collectors.toList());
         if ("GET".equals(method)) {
-            for (RequestParameterList requestParameter : requestParameterList) {
-
+            for (Properties requestParameter : propertieReq) {
                 JSONObject req_queryItem = new JSONObject();
-                req_queryItem.put("desc", requestParameter.getName());
-                req_queryItem.put("example", JSON.toJSONString(requestParameter.getRemark()).replace("@mock=", ""));
-                req_queryItem.put("name", requestParameter.getIdentifier());
-                req_queryItem.put("required", "1");
+                req_queryItem.put("desc", requestParameter.getDescription());
+                req_queryItem.put("example", requestParameter.getValue());
+                req_queryItem.put("name", requestParameter.getName());
+                req_queryItem.put("required", requestParameter.getRequired());
                 req_query.add(req_queryItem);
             }
 
             req_body_type = null;
         } else {
-            req_body_other = formatDeepNoMock(JSON.parseArray(JSON.toJSONString(requestParameterList)));
+            req_body_other = formatDeepNoMock(-1, propertieReq);
 
             req_body_type = "json";
         }
 
-//        List<ResponseParameterList> responseParameterList = inter.getResponseParameterList();
-        List<ResponseParameterList> responseParameterList = new ArrayList<>();
-        Map<String, Object> res_body = formatDeepNoMock(JSON.parseArray(JSON.toJSONString(responseParameterList)));
+        List<Properties> propertiesRes = inter.getProperties().stream()
+                .filter(o -> "response".equals(o.getScope()))
+                .collect(Collectors.toList());
+        Map<String, Object> res_body = formatDeepNoMock(-1, propertiesRes);
 
 
         yApiInterface.put("req_query", req_query);
@@ -437,63 +441,54 @@ public class Rap2ConvertYapiService {
         return yApiInterface;
     }
 
-
-    private JSONObject formatDeepNoMock(JSONArray key) {
+    private JSONObject formatDeepNoMock(Integer parentId, List<Properties> propertyList) {
         JSONObject res_body = new JSONObject();
         JSONObject properties = new JSONObject();
         List<String> required = new ArrayList();
 
-        res_body.put("properties", properties);
-        res_body.put("required", required);
         res_body.put("title", "empty object");
         res_body.put("type", "object");
+        res_body.put("properties", properties);
+        res_body.put("required", required);
 
-
-        for (Object k : key) {
-            JSONObject rp;
-            if (k instanceof String) {
-                rp = JSON.parseObject((String) k);
-            } else {
-                rp = JSON.parseObject(JSON.toJSONString(k));
-            }
-
-            String[] identifiers = rp.getString("identifier").split("\\|");
-
-            String identifier = identifiers[0];
-            required.add(identifier);
-
-            String dataType = rp.getString("dataType");
-            if (dataType.matches("array<(.*)>")) {
-
-                if (dataType.contains("object")) {
-
-                    JSONObject prop = new JSONObject();
-                    prop.put("items", formatDeepNoMock(rp.getJSONArray("parameterList")));
-                    prop.put("type", "array");
-
-                    properties.put(identifier, prop);
-
-                } else {
-                    JSONObject prop = new JSONObject();
-                    prop.put("items", new JSONObject());
-                    prop.put("type", "array");
-                    properties.put(identifier, prop);
+        for (Properties property : propertyList) {
+            if (property.getParentId() == parentId) {
+                String identifier = property.getName();
+                String required1 = property.getRequired();
+                if (required1 != null && Boolean.getBoolean(required1)) {
+                    required.add(property.getName());
                 }
 
-            } else {
-
+                String dataType = property.getType();
                 JSONObject prop = new JSONObject();
-
-                prop.put("description", rp.getString("name"));
-                prop.put("type", dataType);
-
-                if (rp.getJSONArray("parameterList").isEmpty()) {
-                    properties.put(identifier, prop);
-                } else {
-                    properties.put(identifier, formatDeepNoMock(rp.getJSONArray("parameterList")));
+                switch (dataType) {
+                    case "Array":
+                        prop.put("description", property.getDescription());
+                        prop.put("example", property.getValue());
+                        prop.put("items", formatDeepNoMock(property.getId(), propertyList));
+                        prop.put("type", "array");
+                        properties.put(identifier, prop);
+                        break;
+                    case "Object":
+                        properties.put(identifier, formatDeepNoMock(property.getId(), propertyList));
+                        break;
+                    case "String":
+                    case "Number":
+                    case "Boolean":
+                        prop.put("description", property.getDescription());
+                        prop.put("example", property.getValue());
+                        prop.put("type", dataType);
+                        properties.put(identifier, prop);
+                        break;
+                    default:
+                        prop.put("description", property.getDescription());
+                        prop.put("example", property.getValue());
+                        prop.put("type", "String");
+                        properties.put(identifier, prop);
+                        break;
                 }
-            }
 
+            }
         }
 
         res_body.put("properties", properties);

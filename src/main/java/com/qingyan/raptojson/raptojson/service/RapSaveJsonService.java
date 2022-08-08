@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.qingyan.raptojson.util.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,8 @@ public class RapSaveJsonService {
      */
     public String writeToJsonFile(String fileRootPath, JSONObject json, String jsonFileName, String projectName,
                                   String typeName, String moduleName) {
-        return writeToJsonFile(fileRootPath, JSON.toJSONString(json), jsonFileName, projectName, typeName, moduleName);
+        return writeToJsonFile(fileRootPath, JSON.toJSONString(json, SerializerFeature.DisableCircularReferenceDetect),
+                jsonFileName, projectName, typeName, moduleName);
     }
 
 
@@ -59,7 +61,8 @@ public class RapSaveJsonService {
      */
     public String writeToJsonFile(String fileRootPath, JSONArray json, String jsonFileName, String projectName,
                                   String typeName, String moduleName) {
-        return writeToJsonFile(fileRootPath, JSON.toJSONString(json), jsonFileName, projectName, typeName, moduleName);
+        return writeToJsonFile(fileRootPath, JSON.toJSONString(json, SerializerFeature.DisableCircularReferenceDetect),
+                jsonFileName, projectName, typeName, moduleName);
     }
 
     /**
