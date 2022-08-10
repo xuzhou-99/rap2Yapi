@@ -37,9 +37,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("企业信息查询项目接口文档")
-                .description("XX项目描述")
-                .contact(new Contact("xuzhou", "作者URL", "1064284972@qq.com"))
+                .title("Rap转YApi接口文档")
+                .description("Rap、Rap2接口转为可导入YApi的json格式文件")
+                .contact(new Contact("xuzhou", "https://github.com/xuzhou-99/rap2Yapi", "1064284972@qq.com"))
                 .version("1.0")
                 .build();
     }
