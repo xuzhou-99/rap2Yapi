@@ -25,7 +25,6 @@ json:
   # local share path
   sharePath: file://DESKTOP-B7C8MM8
 
-
 url:
   # rap url
   rap: http://172.31.3.113:8080
