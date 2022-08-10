@@ -32,6 +32,7 @@ url:
   # rap2 url
   rap2: http://172.31.3.22:38080
 
+# httpClient config
 http:
   client:
     connect-timeout: 50000

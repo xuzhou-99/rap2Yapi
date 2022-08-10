@@ -46,26 +46,6 @@ public class RapConvertYapiController {
     @Resource
     private RapApiService rapApiService;
 
-    /**
-     * RAP接口
-     **/
-    @GetMapping("/yapi/{rapProjectId}/{projectId}")
-    @ResponseBody
-    @ApiOperation("RAP接口")
-    public ApiResponse rap2YApi(@PathVariable String rapProjectId, @PathVariable String projectId) {
-
-        try {
-            String modelJson = rapApiService.getRapInterfaceByProjectId(rapUrl, rapProjectId);
-
-            RapJsonRootBean rapJsonRootBean = JSON.parseObject(modelJson, RapJsonRootBean.class);
-            rapConvertYapiService.rap2JsonGroupByModule(rapJsonRootBean, rapProjectId, projectId, false);
-            return ApiDataResponse.ofSuccess(rapJsonRootBean);
-        } catch (Exception e) {
-            String eMessage = e.getMessage();
-            log.error("Rap2接口转 YApi json 失败：{}", eMessage);
-            return ApiResponse.ofFail("Rap2接口转 YApi json 失败：" + eMessage);
-        }
-    }
 
     /**
      * Rap 接口转 YApi 导入 json
