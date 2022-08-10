@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.qingyan.raptojson.raptojson.pojo.rap1.RapJsonRootBean;
 import com.qingyan.raptojson.raptojson.service.Rap2ConvertYapiService;
-import com.qingyan.raptojson.raptojson.service.RapConvertYapiService;
 import com.qingyan.raptojson.raptojson.service.RapApiService;
 import com.qingyan.raptojson.response.ApiDataResponse;
 import com.qingyan.raptojson.response.ApiResponse;
@@ -50,42 +48,89 @@ public class Rap2ConvertYapiController {
     /**
      * Rap2接口转YApi：生成Swagger导入json
      *
+     * @param dataUrl Rap2仓库数据URL：http://IP:PORT/repository/get?id=id&token=token
+     * @return 操作结果
+     */
+    @GetMapping("/json/swagger")
+    @ResponseBody
+    @ApiOperation("Rap2接口转YApi：生成Swagger导入json")
+    public ApiResponse rapSwaggerJsonByDataUrl(@ApiParam(name = "dataUrl", value = "Rap2仓库数据URL", required = true) String dataUrl) {
+
+        if (StringUtils.isEmpty(dataUrl)) {
+            return ApiDataResponse.ofError("查询数据失败，Rap2 dataUrl 不能为空");
+        }
+
+        try {
+
+            JSONObject rap2Json = rapApiService.getRap2InterfaceByProjectId(dataUrl);
+            List<String> rap2JsonList = rap2ConvertYapiService.rapSwaggerJson(rap2Json);
+            return ApiDataResponse.ofSuccess("Rap2项目 转为Swagger json文件成功", rap2JsonList);
+
+        } catch (Exception e) {
+            String eMessage = e.getMessage();
+            log.error("Rap2接口转 Swagger json 失败：{}", eMessage);
+            return ApiResponse.ofFail("Rap2接口转 Swagger json 失败：" + eMessage);
+        }
+    }
+
+    /**
+     * Rap2接口转YApi：生成Swagger导入json
+     *
      * @param repositoryId rap项目Id
      * @param token        接口token
      * @return 操作结果
      */
-    @GetMapping("/swagger/json/{repositoryId}")
+    @GetMapping("/json/swagger/{repositoryId}/{token}")
     @ResponseBody
     @ApiOperation("Rap2接口转YApi：生成Swagger导入json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "repositoryId", value = "Rap2仓库Id",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(name = "token", value = "接口token",
                     dataType = "string", dataTypeClass = String.class, required = true)
     })
-    public ApiResponse rapSwaggerJson(@PathVariable String repositoryId,
-                                      @ApiParam(name = "token", value = "接口token", required = true) String token) {
+    public ApiResponse rapSwaggerJson(@PathVariable String repositoryId, @PathVariable String token) {
 
         try {
 
-            if (repositoryId == "" || repositoryId == null) {
-                return ApiDataResponse.ofError("查询数据失败，Rap2 repositoryId 不能为空");
-            }
-            if (token == "" || token == null) {
-                return ApiDataResponse.ofError("查询数据失败，Rap2 token 不能为空");
-            }
-
-            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, token);
-
-            JSONObject rap2Json = JSON.parseObject(rap2JsonStr);
+            JSONObject rap2Json = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, token);
             List<String> rap2JsonList = rap2ConvertYapiService.rapSwaggerJson(rap2Json);
-            return ApiDataResponse.ofSuccess("rap2 项目 " + repositoryId + " 转为Swagger json文件成功", rap2JsonList);
+            return ApiDataResponse.ofSuccess("Rap2项目 " + repositoryId + " 转为Swagger json文件成功", rap2JsonList);
 
         } catch (Exception e) {
             String eMessage = e.getMessage();
-            log.error("Rap2接口转 json 失败：{}", eMessage);
-            return ApiResponse.ofFail("Rap2接口转 json 失败：" + eMessage);
+            log.error("Rap2接口转 Swagger json 失败：{}", eMessage);
+            return ApiResponse.ofFail("Rap2接口转 Swagger json 失败：" + eMessage);
         }
     }
 
+    /**
+     * Rap2接口转YApi：生成YApi导入json
+     *
+     * @param dataUrl Rap2仓库数据URL：http://IP:PORT/repository/get?id=id&token=token
+     * @return 操作结果
+     */
+    @GetMapping("/json/yapi")
+    @ResponseBody
+    @ApiOperation("Rap2接口转YApi：生成YApi导入json")
+    public ApiResponse rapYApiJsonByDataUrl(@ApiParam(name = "dataUrl", value = "Rap2仓库数据URL", required = true) String dataUrl) {
+
+        if (StringUtils.isEmpty(dataUrl)) {
+            return ApiDataResponse.ofError("查询数据失败，Rap2 dataUrl 不能为空");
+        }
+
+        try {
+
+            JSONObject rap2Json = rapApiService.getRap2InterfaceByProjectId(dataUrl);
+            List<String> rap2JsonList = rap2ConvertYapiService.rapYApiJson(rap2Json, "");
+            return ApiDataResponse.ofSuccess("Rap2项目 转为 YApi json文件成功", rap2JsonList);
+
+        } catch (Exception e) {
+            String eMessage = e.getMessage();
+            log.error("Rap2接口转 YApi json 失败：{}", eMessage);
+            return ApiResponse.ofFail("Rap2接口转 YApi json 失败：" + eMessage);
+        }
+    }
 
     /**
      * Rap2接口转YApi：生成YApi导入json
@@ -94,34 +139,27 @@ public class Rap2ConvertYapiController {
      * @param token        接口token
      * @return 操作结果
      */
-    @GetMapping("/yapi/json/{repositoryId}")
+    @GetMapping("/json/yapi/{repositoryId}/{token}")
     @ResponseBody
     @ApiOperation("Rap2接口转YApi：生成YApi导入json")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "repositoryId", value = "Rap2仓库Id",
+                    dataType = "string", dataTypeClass = String.class, required = true),
+            @ApiImplicitParam(name = "token", value = "接口token",
                     dataType = "string", dataTypeClass = String.class, required = true)
     })
-    public ApiResponse rapYApiJson(@PathVariable String repositoryId,
-                                   @ApiParam(name = "token", value = "接口token", required = true) String token) {
+    public ApiResponse rapYApiJson(@PathVariable String repositoryId, @PathVariable String token) {
+
         try {
 
-            if (repositoryId == "" || repositoryId == null) {
-                return ApiDataResponse.ofError("查询数据失败，Rap2 repositoryId 不能为空");
-            }
-            if (token == "" || token == null) {
-                return ApiDataResponse.ofError("查询数据失败，Rap2 token 不能为空");
-            }
-
-            String rap2JsonStr = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, token);
-
-            JSONObject rap2Json = JSON.parseObject(rap2JsonStr);
-            List<String> rap2JsonList = rap2ConvertYapiService.rapYApiJson(rap2Json, "", "");
-            return ApiDataResponse.ofSuccess("rap2 项目 " + repositoryId + " 转为Swagger json文件成功", rap2JsonList);
+            JSONObject rap2Json = rapApiService.getRap2InterfaceByProjectId(rap2Url, repositoryId, token);
+            List<String> rap2JsonList = rap2ConvertYapiService.rapYApiJson(rap2Json, "");
+            return ApiDataResponse.ofSuccess("Rap2项目 " + repositoryId + " 转为YApi json文件成功", rap2JsonList);
 
         } catch (Exception e) {
             String eMessage = e.getMessage();
-            log.error("Rap2接口转 json 失败：{}", eMessage);
-            return ApiResponse.ofFail("Rap2接口转 json 失败：" + eMessage);
+            log.error("Rap2接口转 YApi json 失败：{}", eMessage);
+            return ApiResponse.ofFail("Rap2接口转 YApi json 失败：" + eMessage);
         }
     }
 

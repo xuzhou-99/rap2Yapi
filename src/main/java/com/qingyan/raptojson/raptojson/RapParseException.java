@@ -1,10 +1,12 @@
 package com.qingyan.raptojson.raptojson;
 
 /**
+ * Rap接口转换异常
+ *
  * @author xuzhou
  * @since 2022/8/5
  */
-public class RapParseException extends Exception{
+public class RapParseException extends Exception {
     /**
      * Constructs a new exception with the specified detail message.  The
      * cause is not initialized, and may subsequently be initialized by

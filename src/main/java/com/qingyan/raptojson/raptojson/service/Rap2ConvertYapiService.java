@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -17,12 +16,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.qingyan.raptojson.raptojson.RapParseException;
 import com.qingyan.raptojson.raptojson.RapUtil;
 import com.qingyan.raptojson.raptojson.enums.JsonConvertTypeEnum;
-import com.qingyan.raptojson.raptojson.pojo.rap1.RequestParameterList;
-import com.qingyan.raptojson.raptojson.pojo.rap1.ResponseParameterList;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Data;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Interfaces;
 import com.qingyan.raptojson.raptojson.pojo.rap2.Modules;
@@ -39,6 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class Rap2ConvertYapiService {
 
+    /**
+     * 参数根节点Id
+     */
+    private static final int PARAM_ROOT_ID = -1;
+
     @Value("${json.rootPath}")
     private String jsonRootPath;
 
@@ -46,6 +47,13 @@ public class Rap2ConvertYapiService {
     private RapSaveJsonService rapSaveJsonService;
 
 
+    /**
+     * Rap2接口转为Swagger json
+     *
+     * @param rap2Json Rap2接口
+     * @return 转换后文件地址
+     * @throws RapParseException Rap接口转换异常
+     */
     public List<String> rapSwaggerJson(JSONObject rap2Json) throws RapParseException {
         List<String> fileList = new ArrayList<>();
 
@@ -55,11 +63,13 @@ public class Rap2ConvertYapiService {
         }
 
         JSONObject data = rap2Json.getJSONObject("data");
+
         JSONArray modules = data.getJSONArray("modules");
         String name = data.getString("name");
         String description = data.getString("description");
         log.info("Rap2接口转 Swagger json：开始处理 {} 项目", name);
 
+        // 构建Swagger json
         JSONObject swagger = new JSONObject();
         swagger.put("swagger", "2.0");
 
@@ -68,22 +78,22 @@ public class Rap2ConvertYapiService {
         info.put("description", description);
         swagger.put("info", info);
 
+        // 分类
         JSONArray tags = parseTags(modules);
         swagger.put("tags", tags);
 
+        // 接口
         JSONObject paths = parsePaths(modules);
         swagger.put("paths", paths);
 
+        // 请求、响应参数
         JSONObject definitions = parseDefinitions(modules);
         swagger.put("definitions", definitions);
 
-
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger,
-                "swagger_" + data.getString("name"),
-                data.getString("name"), JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
-
+        // 存放构建的json 文件
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger, "swagger_" + name,
+                name, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
         fileList.add(jsonFile);
-        log.info("rap 接口转为 json文件：{}", jsonFile);
 
         return fileList;
     }
@@ -126,9 +136,7 @@ public class Rap2ConvertYapiService {
                 JSONObject inter = JSON.parseObject(JSON.toJSONString(i));
                 String interMethod = inter.getString("method").toLowerCase();
                 log.info("Rap2接口转 Swagger json：【接口】模块 {} ，接口 {}，url {}",
-                        moduleName,
-                        inter.getString("name"),
-                        inter.getString("url"));
+                        moduleName, inter.getString("name"), inter.getString("url"));
 
                 JSONObject path = new JSONObject();
                 JSONObject method = new JSONObject();
@@ -177,7 +185,7 @@ public class Rap2ConvertYapiService {
         for (Object p : properties) {
             JSONObject prop = JSON.parseObject(JSON.toJSONString(p));
 
-            if (Objects.equals(prop.getString("scope"), "response")) {
+            if ("response".equals(prop.getString("scope"))) {
                 continue;
             }
 
@@ -215,14 +223,12 @@ public class Rap2ConvertYapiService {
                 JSONObject inter = JSON.parseObject(JSON.toJSONString(i));
                 JSONArray properties = inter.getJSONArray("properties");
                 log.info("Rap2接口转 Swagger json：【定义参数】模块 {} ，接口 {}，url {}",
-                        moduleName,
-                        inter.getString("name"),
-                        inter.getString("url"));
+                        moduleName, inter.getString("name"), inter.getString("url"));
 
                 for (Object p : properties) {
                     JSONObject prop = JSON.parseObject(JSON.toJSONString(p));
 
-                    if (Objects.equals(prop.getString("scope"), "request")) {
+                    if ("request".equals(prop.getString("scope"))) {
                         continue;
                     }
 
@@ -231,7 +237,7 @@ public class Rap2ConvertYapiService {
                     JSONObject response = new JSONObject();
                     if (definitions.get(responseSuf) == null) {
 
-                        response.put("title", "Response" + suf);
+                        response.put("title", responseSuf);
                         response.put("type", "object");
                         response.put("properties", new JSONObject());
 
@@ -270,18 +276,15 @@ public class Rap2ConvertYapiService {
 
 
     /**
-     * Rap 接口转 YApi json
+     * Rap2 接口转 YApi json
      * rap项目对应 YApi 项目；
      * rap模块对应 YApi 分类；
      * rap接口对应 YApi 接口；
-     * （项目-模块-分类-接口） 重组为 (项目-分类（模块作为分类）-接口)
      *
-     * @param rap2Json     rap接口对象
-     * @param rapProjectId rap项目Id
-     * @param projectId    YApi项目Id
+     * @param rap2Json  rap接口对象
+     * @param projectId YApi项目Id
      */
-    public List<String> rapYApiJson(JSONObject rap2Json, String rapProjectId, String projectId)
-            throws RapParseException {
+    public List<String> rapYApiJson(JSONObject rap2Json, String projectId) throws RapParseException {
 
         List<String> fileList = new ArrayList<>();
 
@@ -291,6 +294,7 @@ public class Rap2ConvertYapiService {
             log.error("原始json不能为空");
             throw new RapParseException("Rap2 原始json为空");
         }
+
         Data data = rap2JsonRootBean.getData();
         List<Modules> modules = data.getModules();
         String rapDataName = data.getName();
@@ -309,11 +313,15 @@ public class Rap2ConvertYapiService {
             log.info("Rap2接口转 YApi json：模块 {} ", module.getName());
 
             String catid = "";
+            String moduleDescription = module.getDescription();
             JSONObject catMap = new JSONObject();
-            catMap.put("desc", module.getDescription());
-            catMap.put("name", moduleName);
             catMap.put("project_id", projectId);
-
+            catMap.put("name", moduleName);
+            if (StringUtils.isNotEmpty(moduleDescription)) {
+                catMap.put("desc", moduleDescription);
+            } else {
+                catMap.put("desc", description);
+            }
 
             log.info("新增接口分类 【{}】", moduleName);
 
@@ -322,12 +330,11 @@ public class Rap2ConvertYapiService {
 
             for (Interfaces inter : interfaces) {
 
-                log.info("处理分组【{}】 ： 接口 {}", moduleName, inter.getName());
+                log.info("处理分组【{}】 ： 接口 {}，Url {}", moduleName, inter.getName(), inter.getUrl());
 
                 if (StringUtils.isNotEmpty(inter.getUrl())) {
 
                     Map<String, Object> yApiInterface = action2YApiInterface(projectId, catid, inter);
-
                     list.add(yApiInterface);
                 }
             }
@@ -337,11 +344,9 @@ public class Rap2ConvertYapiService {
             allJson.add(catMap);
         }
 
-
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson,
-                "all_" + rapDataName, rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
+        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
+                rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
         fileList.add(jsonFile);
-        log.info("rap 接口转为 json文件：{}", jsonFile);
 
         return fileList;
     }
@@ -373,17 +378,14 @@ public class Rap2ConvertYapiService {
         yApiInterface.put("desc", inter.getDescription());
         yApiInterface.put("method", method);
         yApiInterface.put("project_id", projectId);
-        yApiInterface.put("tag", new ArrayList<>());
+        yApiInterface.put("tag", Collections.emptyList());
         yApiInterface.put("api_opened", false);
 
         yApiInterface.put("switch_notice", false);
 
         JSONArray headers = new JSONArray();
-        if (!StringUtils.equals(method, "GET")) {
+        if (!"GET".equals(method)) {
             JSONObject header = new JSONObject();
-//            header.put("name", "Content-Type");
-//            header.put("value", "application/json");
-
             header.put("name", "Content-Type");
             header.put("value", "multipart/form-data");
             headers.add(header);
@@ -391,48 +393,41 @@ public class Rap2ConvertYapiService {
 
         yApiInterface.put("req_headers", headers);
 
-
         List<JSONObject> req_query = new ArrayList<>();
 
         JSONObject req_body_other = null;
-        String req_body_type;
+        String req_body_type = null;
 
         List<Properties> propertieReq = inter.getProperties().stream()
                 .filter(o -> "request".equals(o.getScope()))
                 .collect(Collectors.toList());
         if ("GET".equals(method)) {
             for (Properties requestParameter : propertieReq) {
-                JSONObject req_queryItem = new JSONObject();
-                req_queryItem.put("desc", requestParameter.getDescription());
-                req_queryItem.put("example", requestParameter.getValue());
-                req_queryItem.put("name", requestParameter.getName());
-                req_queryItem.put("required", requestParameter.getRequired());
-                req_query.add(req_queryItem);
+                JSONObject reqQueryItem = new JSONObject();
+                reqQueryItem.put("desc", requestParameter.getDescription());
+                reqQueryItem.put("example", requestParameter.getValue());
+                reqQueryItem.put("name", requestParameter.getName());
+                reqQueryItem.put("required", requestParameter.getRequired());
+                req_query.add(reqQueryItem);
             }
-
-            req_body_type = null;
         } else {
-            req_body_other = formatDeepNoMock(-1, propertieReq);
-
+            req_body_other = formatDeepProperty(PARAM_ROOT_ID, propertieReq);
             req_body_type = "json";
         }
 
         List<Properties> propertiesRes = inter.getProperties().stream()
                 .filter(o -> "response".equals(o.getScope()))
                 .collect(Collectors.toList());
-        Map<String, Object> res_body = formatDeepNoMock(-1, propertiesRes);
-
+        Map<String, Object> res_body = formatDeepProperty(PARAM_ROOT_ID, propertiesRes);
 
         yApiInterface.put("req_query", req_query);
-        yApiInterface.put("req_params", new ArrayList<>());
+        yApiInterface.put("req_params", Collections.emptyList());
         yApiInterface.put("req_body_other", JSON.toJSONString(req_body_other));
         yApiInterface.put("req_body_type", req_body_type);
 
-
         yApiInterface.put("markdown", "");
-        yApiInterface.put("req_body_form", new ArrayList<>());
+        yApiInterface.put("req_body_form", Collections.emptyList());
         yApiInterface.put("req_body_is_json_schema", true);
-
 
         yApiInterface.put("res_body", JSON.toJSONString(res_body));
         yApiInterface.put("res_body_is_json_schema", true);
@@ -441,10 +436,17 @@ public class Rap2ConvertYapiService {
         return yApiInterface;
     }
 
-    private JSONObject formatDeepNoMock(Integer parentId, List<Properties> propertyList) {
+    /**
+     * 循环构建请求响应参数
+     *
+     * @param parentId     父级参数Id
+     * @param propertyList 参数集合
+     * @return 参数对象
+     */
+    private JSONObject formatDeepProperty(Integer parentId, List<Properties> propertyList) {
         JSONObject res_body = new JSONObject();
         JSONObject properties = new JSONObject();
-        List<String> required = new ArrayList();
+        List<String> required = new ArrayList<>();
 
         res_body.put("title", "empty object");
         res_body.put("type", "object");
@@ -454,8 +456,8 @@ public class Rap2ConvertYapiService {
         for (Properties property : propertyList) {
             if (property.getParentId() == parentId) {
                 String identifier = property.getName();
-                String required1 = property.getRequired();
-                if (required1 != null && Boolean.getBoolean(required1)) {
+                String requiredStr = property.getRequired();
+                if (requiredStr != null && Boolean.getBoolean(requiredStr)) {
                     required.add(property.getName());
                 }
 
@@ -465,12 +467,12 @@ public class Rap2ConvertYapiService {
                     case "Array":
                         prop.put("description", property.getDescription());
                         prop.put("example", property.getValue());
-                        prop.put("items", formatDeepNoMock(property.getId(), propertyList));
+                        prop.put("items", formatDeepProperty(property.getId(), propertyList));
                         prop.put("type", "array");
                         properties.put(identifier, prop);
                         break;
                     case "Object":
-                        properties.put(identifier, formatDeepNoMock(property.getId(), propertyList));
+                        properties.put(identifier, formatDeepProperty(property.getId(), propertyList));
                         break;
                     case "String":
                     case "Number":
@@ -487,7 +489,6 @@ public class Rap2ConvertYapiService {
                         properties.put(identifier, prop);
                         break;
                 }
-
             }
         }
 

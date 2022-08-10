@@ -2,6 +2,8 @@ package com.qingyan.raptojson.raptojson.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +108,6 @@ public class RapConvertYapiService {
             catMap.put("name", moduleName);
             catMap.put("project_id", projectId);
 
-
             log.info("新增接口分类 【{}】", moduleName);
 
             List<PageList> pageList = module.getPageList();
@@ -116,24 +117,23 @@ public class RapConvertYapiService {
 
                 String pageItemName = pageItem.getName();
                 if (StringUtils.equalsAny(pageItemName, "", "某页面")) {
-                    pageItemName = "";
+                    pageItemName = moduleName;
                 }
+
                 log.info("处理Rap pageList 分组：【{}】", pageItemName);
 
                 List<ActionList> actionList = pageItem.getActionList();
-
                 for (ActionList action : actionList) {
 
                     log.info("处理分组【{}】 ： 接口 {}", pageItemName, action.getName());
-
                     if (StringUtils.isNotEmpty(action.getRequestUrl())) {
 
                         Map<String, Object> yApiInterface = action2YApiInterface(projectId, catid, action, pageItemName);
-
                         list.add(yApiInterface);
                     }
                 }
             }
+
             catMap.put("list", list);
 
             if (Boolean.FALSE.equals(oneJson)) {
@@ -141,10 +141,9 @@ public class RapConvertYapiService {
                 json.add(catMap);
 
                 String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, json,
-                        rapDataName + "_" + catMap.getString("name"),
+                        rapDataName + "_" + moduleName,
                         rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
                 fileList.add(jsonFile);
-                log.info("rap 接口转为 json文件：{}", jsonFile);
             } else {
                 allJson.add(catMap);
             }
@@ -154,7 +153,6 @@ public class RapConvertYapiService {
             String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
                     rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
             fileList.add(jsonFile);
-            log.info("rap 接口转为 json文件：{}", jsonFile);
         }
         return fileList;
     }
@@ -191,7 +189,6 @@ public class RapConvertYapiService {
             JSONArray interCatList = new JSONArray();
 
             List<PageList> pageList = module.getPageList();
-
             for (PageList pageItem : pageList) {
 
                 String pageItemName = pageItem.getName();
@@ -200,7 +197,6 @@ public class RapConvertYapiService {
                 }
                 log.info("处理Rap pageList 分组：【{}】", pageItemName);
                 log.info("新增接口分类 【{}】", pageItemName);
-
 
                 String catid = "";
                 JSONObject catMap = new JSONObject();
@@ -220,7 +216,6 @@ public class RapConvertYapiService {
                     }
 
                     Map<String, Object> yApiInterface = action2YApiInterface(projectId, catid, action, null);
-
                     list.add(yApiInterface);
                 }
 
@@ -232,7 +227,6 @@ public class RapConvertYapiService {
             String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName,
                     JsonConvertTypeEnum.MODULE_TO_PROJECT.getTypeName(), moduleName);
             fileList.add(jsonFile);
-            log.info("rap 接口转为 json文件：{}", jsonFile);
         }
         return fileList;
     }
@@ -268,7 +262,7 @@ public class RapConvertYapiService {
         yApiInterface.put("desc", action.getDescription());
         yApiInterface.put("method", method);
         yApiInterface.put("project_id", projectId);
-        yApiInterface.put("tag", new ArrayList<>());
+        yApiInterface.put("tag", Collections.emptyList());
         yApiInterface.put("api_opened", false);
 
         yApiInterface.put("switch_notice", false);
@@ -286,7 +280,7 @@ public class RapConvertYapiService {
         List<JSONObject> req_query = new ArrayList<>();
 
         JSONObject req_body_other = null;
-        String req_body_type;
+        String req_body_type = null;
 
         List<RequestParameterList> requestParameterList = action.getRequestParameterList();
 
@@ -308,27 +302,22 @@ public class RapConvertYapiService {
                 req_query.add(req_queryItem);
             }
 
-            req_body_type = null;
         } else {
             req_body_other = formatDeepNoMock(JSON.parseArray(JSON.toJSONString(requestParameterList)));
-
             req_body_type = "json";
         }
 
         List<ResponseParameterList> responseParameterList = action.getResponseParameterList();
         Map<String, Object> res_body = formatDeepNoMock(JSON.parseArray(JSON.toJSONString(responseParameterList)));
 
-
         yApiInterface.put("req_query", req_query);
-        yApiInterface.put("req_params", new ArrayList<>());
+        yApiInterface.put("req_params", Collections.emptyList());
         yApiInterface.put("req_body_other", JSON.toJSONString(req_body_other));
         yApiInterface.put("req_body_type", req_body_type);
 
-
         yApiInterface.put("markdown", "");
-        yApiInterface.put("req_body_form", new ArrayList<>());
+        yApiInterface.put("req_body_form", Collections.emptyList());
         yApiInterface.put("req_body_is_json_schema", true);
-
 
         yApiInterface.put("res_body", JSON.toJSONString(res_body));
         yApiInterface.put("res_body_is_json_schema", true);
@@ -338,18 +327,23 @@ public class RapConvertYapiService {
     }
 
 
-    private JSONObject formatDeepNoMock(JSONArray key) {
+    /**
+     * 递归处理参数
+     *
+     * @param parameterList 参数集合
+     * @return 参数json
+     */
+    private JSONObject formatDeepNoMock(JSONArray parameterList) {
         JSONObject res_body = new JSONObject();
         JSONObject properties = new JSONObject();
-        List<String> required = new ArrayList();
+        List<String> required = new ArrayList<>();
 
         res_body.put("properties", properties);
         res_body.put("required", required);
         res_body.put("title", "empty object");
         res_body.put("type", "object");
 
-
-        for (Object k : key) {
+        for (Object k : parameterList) {
             JSONObject rp;
             if (k instanceof String) {
                 rp = JSON.parseObject((String) k);
@@ -377,7 +371,6 @@ public class RapConvertYapiService {
                     prop.put("description", fullName);
                     prop.put("items", formatDeepNoMock(rp.getJSONArray("parameterList")));
                     prop.put("type", "array");
-
                     properties.put(identifier, prop);
                 } else {
                     JSONObject prop = new JSONObject();
@@ -389,11 +382,10 @@ public class RapConvertYapiService {
 
             } else {
 
-                JSONObject prop = new JSONObject();
-                prop.put("description", fullName);
-                prop.put("type", dataType);
-
                 if (rp.getJSONArray("parameterList").isEmpty()) {
+                    JSONObject prop = new JSONObject();
+                    prop.put("description", fullName);
+                    prop.put("type", dataType);
                     properties.put(identifier, prop);
                 } else {
                     properties.put(identifier, formatDeepNoMock(rp.getJSONArray("parameterList")));
@@ -414,15 +406,15 @@ public class RapConvertYapiService {
      * @return
      */
     private JSONObject formatDeepWithMock(JSONArray key) {
+        //TODO：处理成带mock的json
         JSONObject res_body = new JSONObject();
         JSONObject properties = new JSONObject();
-        List<String> required = new ArrayList();
+        List<String> required = new ArrayList<>();
 
         res_body.put("properties", properties);
         res_body.put("required", required);
         res_body.put("title", "empty object");
         res_body.put("type", "object");
-
 
         for (Object k : key) {
             JSONObject rp;
@@ -431,7 +423,6 @@ public class RapConvertYapiService {
             } else {
                 rp = JSON.parseObject(JSON.toJSONString(k));
             }
-
 
             String identifier = "";
             String decorate = "";
@@ -446,7 +437,7 @@ public class RapConvertYapiService {
             if (rp.getString("dataType").contains("array")) {
                 String type = rp.getString("dataType");
 
-                if (type == "object") {
+                if ("object".equals(type)) {
                     String len = decorate;
                     if (len == "") {
                         len = "1";
@@ -471,7 +462,6 @@ public class RapConvertYapiService {
                         }
                     }
 
-
                     JSONObject prop = new JSONObject();
 
                     Map<String, Object> items = new HashMap<>();
@@ -491,7 +481,7 @@ public class RapConvertYapiService {
                 String remark = rp.getString("remark");
                 String mock = !StringUtils.equals(remark, "") ? remark.replace("@mock=", "") : " ";
 
-                List<Object> arr = mock != "" && mock.contains("$order") ?
+                List<Object> arr = !"".equals(mock) && mock.contains("$order") ?
                         Arrays.asList(mock.split("$order")[1].replace("[()'\"]", " ").split(", ")) : new ArrayList<>();
                 String len = decorate != null && decorate.indexOf('+') < 0 && decorate.indexOf('.') < 0 ? decorate : "0";
                 String rule;

@@ -101,6 +101,7 @@ public class RapSaveJsonService {
 
         try {
             FileUtil.writeToFile(json, filePath);
+            log.info("写入json文件成功：{}", filePath);
         } catch (Exception e) {
             log.error("写入文件 {} 失败！", filePath, e);
         }
