@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class RapSaveJsonService {
+public class SaveJsonService {
 
     /**
      * json 文件后缀名

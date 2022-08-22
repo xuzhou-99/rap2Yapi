@@ -44,7 +44,7 @@ public class Rap2ConvertYapiService {
     private String jsonRootPath;
 
     @Resource
-    private RapSaveJsonService rapSaveJsonService;
+    private SaveJsonService saveJsonService;
 
 
     /**
@@ -91,7 +91,7 @@ public class Rap2ConvertYapiService {
         swagger.put("definitions", definitions);
 
         // 存放构建的json 文件
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, swagger, "swagger_" + name,
+        String jsonFile = saveJsonService.writeToJsonFile(jsonRootPath, swagger, "swagger_" + name,
                 name, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
         fileList.add(jsonFile);
 
@@ -196,7 +196,7 @@ public class Rap2ConvertYapiService {
             item.put("example", prop.getString("value"));
             item.put("description", prop.getString("description"));
             item.put("type", prop.getString("type").toLowerCase());
-            item.put("required", prop.getBooleanValue("required"));
+            item.put("required", Boolean.TRUE.equals(prop.getBooleanValue("required")) ? "1" : "0");
 
             list.add(item);
         }
@@ -344,7 +344,7 @@ public class Rap2ConvertYapiService {
             allJson.add(catMap);
         }
 
-        String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
+        String jsonFile = saveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
                 rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
         fileList.add(jsonFile);
 
@@ -407,7 +407,13 @@ public class Rap2ConvertYapiService {
                 reqQueryItem.put("desc", requestParameter.getDescription());
                 reqQueryItem.put("example", requestParameter.getValue());
                 reqQueryItem.put("name", requestParameter.getName());
-                reqQueryItem.put("required", requestParameter.getRequired());
+                String required = "0";
+                if (StringUtils.isNotEmpty(requestParameter.getRequired())) {
+                    if (Boolean.getBoolean(requestParameter.getRequired())) {
+                        required = "1";
+                    }
+                }
+                reqQueryItem.put("required", required);
                 req_query.add(reqQueryItem);
             }
         } else {

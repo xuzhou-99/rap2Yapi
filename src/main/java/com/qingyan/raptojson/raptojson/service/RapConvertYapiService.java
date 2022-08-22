@@ -40,7 +40,7 @@ public class RapConvertYapiService {
     private String jsonRootPath;
 
     @Resource
-    private RapSaveJsonService rapSaveJsonService;
+    private SaveJsonService saveJsonService;
 
 
     /**
@@ -139,7 +139,7 @@ public class RapConvertYapiService {
                 JSONArray json = new JSONArray();
                 json.add(catMap);
 
-                String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, json,
+                String jsonFile = saveJsonService.writeToJsonFile(jsonRootPath, json,
                         rapDataName + "_" + moduleName,
                         rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
                 fileList.add(jsonFile);
@@ -149,7 +149,7 @@ public class RapConvertYapiService {
         }
 
         if (Boolean.TRUE.equals(oneJson)) {
-            String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
+            String jsonFile = saveJsonService.writeToJsonFile(jsonRootPath, allJson, "all_" + rapDataName,
                     rapDataName, JsonConvertTypeEnum.PROJECT_TO_PROJECT.getTypeName(), "");
             fileList.add(jsonFile);
         }
@@ -223,7 +223,7 @@ public class RapConvertYapiService {
                 interCatList.add(catMap);
             }
 
-            String jsonFile = rapSaveJsonService.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName,
+            String jsonFile = saveJsonService.writeToJsonFile(jsonRootPath, interCatList, moduleName, rapDataName,
                     JsonConvertTypeEnum.MODULE_TO_PROJECT.getTypeName(), moduleName);
             fileList.add(jsonFile);
         }
