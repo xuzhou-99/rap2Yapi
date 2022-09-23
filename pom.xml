@@ -13,11 +13,11 @@
     <artifactId>rapToJson</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rapToJson</name>
-    <description>rap接口转为适合Yapi导入的json格式</description>
+    <description>rap接口转为适合YApi导入的json格式</description>
 
     <properties>
         <java.version>1.8</java.version>
-        <fastjson.version>2.0.7</fastjson.version>
+        <fastjson.version>2.0.13</fastjson.version>
         <httpClient.version>4.5.13</httpClient.version>
         <swagger.version>3.0.0</swagger.version>
     </properties>
